@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MissionControlAndroid</string>
+    <string name="title_activity_login_screen">Login</string>
 </resources>
