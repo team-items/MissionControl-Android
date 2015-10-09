@@ -1,0 +1,7 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+        <activity android:name="robo4you.at.missioncontrolandroid.LoginScreen"
+            android:label="@string/title_activity_login_screen"></activity>
+    </application>
+</manifest>
