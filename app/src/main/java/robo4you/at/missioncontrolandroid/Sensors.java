@@ -1,5 +1,6 @@
 package robo4you.at.missioncontrolandroid;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 public class Sensors extends Fragment{
 
     ArrayList<Sensor> sensors = new ArrayList<>();
+    Activity main;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

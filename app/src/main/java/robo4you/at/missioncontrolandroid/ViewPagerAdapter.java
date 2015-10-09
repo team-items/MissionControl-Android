@@ -1,5 +1,6 @@
 package robo4you.at.missioncontrolandroid;
 
+import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -11,6 +12,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     CharSequence Titles[]; // This will Store the Titles of the Tabs which are Going to be passed when ViewPagerAdapter is created
     int NumbOfTabs; // Store the number of tabs, this will also be passed when the ViewPagerAdapter is created
+    Activity main;
 
 
     // Build a Constructor and assign the passed Values to appropriate values in the class
@@ -29,10 +31,15 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         if (position == 0) // if the position is 0 we are returning the First tab
         {
             Sensors tab1 = new Sensors();
+            tab1.main = main;
+            tab1.sensors.add(new Sensor(false,0,10,"Test",main.getApplicationContext()));
             return tab1;
-        } else             // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
+        }
+        else             // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
         {
             Sensors tab2 = new Sensors();
+            tab2.main = main;
+            tab2.sensors.add(new Sensor(false,0,10,"Test",main.getApplicationContext()));
             return tab2;
         }
 
