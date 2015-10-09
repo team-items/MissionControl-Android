@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">MissionControlAndroid</string>
     <string name="title_activity_login_screen">Login</string>
+    <string name="title_activity_display">Display</string>
+    <string name="title_activity_sensors">Sensors</string>
+    <string name="title_activity_main">MainActivity</string>
 </resources>
