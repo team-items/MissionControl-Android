@@ -13,6 +13,8 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     CharSequence Titles[]; // This will Store the Titles of the Tabs which are Going to be passed when ViewPagerAdapter is created
     int NumbOfTabs; // Store the number of tabs, this will also be passed when the ViewPagerAdapter is created
     Activity main;
+    Sensors sensorsTab = new Sensors();
+    Motors motorTab = new Motors();
 
 
     // Build a Constructor and assign the passed Values to appropriate values in the class
@@ -30,31 +32,23 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
         if (position == 0) // if the position is 0 we are returning the First tab
         {
-            Sensors tab1 = new Sensors();
-            tab1.sensors.add(new Sensor(false,0,10,"Test",main.getApplicationContext()));
-            tab1.sensors.add(new Sensor(false,0,10,"Test",main.getApplicationContext()));
-            tab1.sensors.add(new Sensor(false,0,10,"Test",main.getApplicationContext()));
-            tab1.sensors.add(new Sensor(false,0,10,"Test",main.getApplicationContext()));
-            tab1.sensors.add(new Sensor(false,0,10,"Test",main.getApplicationContext()));
-            tab1.sensors.add(new Sensor(false,0,10,"Test",main.getApplicationContext()));
-            tab1.sensors.add(new Sensor(false,0,10,"Test",main.getApplicationContext()));
-
-
-            return tab1;
+            sensorsTab.sensors.add(new Sensor(false,0,10,"Test",main.getApplicationContext()));
+            sensorsTab.sensors.add(new Sensor(false,0,10,"Test",main.getApplicationContext()));
+            sensorsTab.sensors.add(new Sensor(false,0,10,"Test",main.getApplicationContext()));
+            sensorsTab.sensors.add(new Sensor(false,0,10,"Test",main.getApplicationContext()));
+            sensorsTab.sensors.add(new Sensor(false,0,10,"Test",main.getApplicationContext()));
+            return sensorsTab;
         }
         else             // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
         {
-            Motors tab2 = new Motors();
-            tab2.motors.add(new Motor(33,40,"Motor 1",main.getApplicationContext()));
-
-            tab2.motors.add(new Motor(0,100,"Motor 1",main.getApplicationContext()));
-            tab2.motors.add(new Motor(0,100,"Motor 1",main.getApplicationContext()));
-            tab2.motors.add(new Motor(0,100,"Motor 1",main.getApplicationContext()));
-            tab2.motors.add(new Motor(0,100,"Motor 1",main.getApplicationContext()));
-            tab2.motors.add(new Motor(0,100,"Motor 1",main.getApplicationContext()));
-
-
-            return tab2;
+            motorTab.motors.add(new Motor(33,40,"Motor 1",main.getApplicationContext()));
+            motorTab.motors.add(new Motor(33,40,"Motor 1",main.getApplicationContext()));
+            motorTab.motors.add(new Motor(33,40,"Motor 1",main.getApplicationContext()));
+            motorTab.motors.add(new Motor(-1024,1024,"Motor 1",main.getApplicationContext()));
+            motorTab.motors.add(new Motor(-1024,1024,"Motor 1",main.getApplicationContext()));
+            motorTab.motors.add(new Motor(-1024,1024,"Motor 1",main.getApplicationContext()));
+            motorTab.motors.add(new Motor(-1024,1024,"Motor 1",main.getApplicationContext()));
+            return motorTab;
         }
 
 

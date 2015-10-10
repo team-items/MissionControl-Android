@@ -2,8 +2,6 @@ package robo4you.at.missioncontrolandroid;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Typeface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -36,25 +34,23 @@ public class Motor {
         textView_value =  (TextView)layout.findViewById(R.id.motor_value);
         textView_value.setTextColor(Color.BLACK);
         textView_label.setTypeface(MainActivity.getTypeface());
+        textView_value.setTypeface(MainActivity.getTypeface());
+        textView_value.setText("" + min);
         go = (Button) layout.findViewById(R.id.go);
         seekBar = (SeekBar)layout.findViewById(R.id.seekBar);
-        Typeface font = MainActivity.getTypeface();
-        textView_label.setTypeface(font);
-        textView_value.setTypeface(font);
+
         final float unit;
         if (min>=0){
             unit = ((float)max-(float)min)/100;
         }else{
             unit = ((float)Math.abs(min)+(float)Math.abs(max))/100;
         }
-        Log.e("Unit",""+unit);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int sensor_value = (int)(min+unit*progress+0.5);
-                Log.e("Progress:", "" + progress);
-                textView_value.setText(""+(int)(min+unit*progress+0.5));
-                value = (int)(min+unit*progress+0.5);
+                int motor_value = (int) (min + unit * progress + 0.5);
+                textView_value.setText("" + motor_value);
+                value = motor_value;
             }
 
             @Override
@@ -71,7 +67,6 @@ public class Motor {
                 //send update message
             }
         });
-        textView_value.setText("");
         this.layout = layout;
     }
     public LinearLayout getLayout(){

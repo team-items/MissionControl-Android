@@ -3,28 +3,25 @@ package robo4you.at.missioncontrolandroid;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.util.Log;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
-import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
-import org.w3c.dom.Text;
+import java.util.Random;
 
 /**
  * Created by Raphael on 09.10.2015.
  */
-public class Sensor implements View.OnClickListener{
+public class Sensor implements View.OnClickListener {
 
     boolean isDigital;
     int min, max;
@@ -37,20 +34,27 @@ public class Sensor implements View.OnClickListener{
     LineGraphSeries<DataPoint> series;
     private int x = 0;
     final int VALUES_TO_DISPLAY = 50;
+    Handler handler = new Handler();
 
     public Sensor(boolean isDigital, int min, int max, String label, Context context) {
-        LinearLayout layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.sensors_layout,null);
+        LinearLayout layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.sensors_layout, null);
         layout.setClickable(true);
-        graph = (GraphView)layout.findViewById(R.id.graph);
+        graph = (GraphView) layout.findViewById(R.id.graph);
+
+        Viewport viewport = graph.getViewport();
+        viewport.setYAxisBoundsManual(true);
+        viewport.setMinY(min);
+        viewport.setMaxY(max);
+        viewport.setScrollable(true);
 
         GridLabelRenderer labelRenderer = graph.getGridLabelRenderer();
         labelRenderer.setGridColor(Color.BLACK);
         labelRenderer.setVerticalLabelsColor(Color.BLACK);
-        labelRenderer.setHorizontalLabelsColor(Color.BLACK);
+        labelRenderer.setHorizontalLabelsColor(Color.TRANSPARENT);
         labelRenderer.reloadStyles();
 
-        value = (TextView)layout.findViewById(R.id.sensor_value);
-        labelView = (TextView)layout.findViewById(R.id.sensor_name);
+        value = (TextView) layout.findViewById(R.id.sensor_value);
+        labelView = (TextView) layout.findViewById(R.id.sensor_name);
         Typeface font = MainActivity.getTypeface();
         value.setTypeface(font);
         labelView.setTypeface(font);
@@ -58,10 +62,10 @@ public class Sensor implements View.OnClickListener{
         this.isDigital = isDigital;
         this.label = label;
         labelView.setText(label);
-        if(isDigital){
+        if (isDigital) {
             this.min = 0;
             this.max = 1;
-        }else{
+        } else {
             this.min = min;
             this.max = max;
             series = new LineGraphSeries<DataPoint>();
@@ -72,9 +76,9 @@ public class Sensor implements View.OnClickListener{
         layout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
         layout.setOnClickListener(this);
-        if (isDigital){
+        if (isDigital) {
             graph.setVisibility(View.GONE);
-        }else{
+        } else {
             layout.setOnClickListener(this);
             graph.setOnClickListener(this);
             value.setOnClickListener(this);
@@ -82,22 +86,48 @@ public class Sensor implements View.OnClickListener{
         }
 
         this.sensor_layout = layout;
+        Thread thread = new Thread(new UpdateGraph());
+        thread.start();
     }
-    public LinearLayout getLayout(){
+
+    public LinearLayout getLayout() {
         return sensor_layout;
     }
 
     @Override
     public void onClick(View v) {
-        if (visible){
+        if (visible) {
             graph.setVisibility(View.GONE);
             visible = false;
-        }else{
+        } else {
             graph.setVisibility(View.VISIBLE);
             visible = true;
         }
     }
-    public void addPoint(int value){
-        series.appendData(new DataPoint(x++, value),true,VALUES_TO_DISPLAY);
+
+    public void addPoint(int value) {
+        series.appendData(new DataPoint(x++, value), true, VALUES_TO_DISPLAY);
+        this.value.setText(""+value);
+    }
+    public class UpdateGraph implements Runnable{
+
+        @Override
+        public void run() {
+
+            for (int i = 0;i<200;i++){
+                handler.post(new Runnable() {
+                    Random r = new Random();
+                    @Override
+                    public void run() {
+                        addPoint(r.nextInt(max));
+                    }
+                });
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

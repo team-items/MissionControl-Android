@@ -1,22 +1,10 @@
 package robo4you.at.missioncontrolandroid;
 
-import android.content.Intent;
-import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-
-import junit.framework.Assert;
-
-import java.lang.reflect.Type;
 
 import robo4you.at.missioncontrolandroid.SlidingTabLayout.SlidingTabLayout;
 
@@ -62,6 +50,7 @@ public class MainActivity extends ActionBarActivity{
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
     }
+
     public static float getDisplay_density(){
         return display_density;
     }
