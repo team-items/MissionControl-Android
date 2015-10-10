@@ -3,4 +3,5 @@
     <color name="ColorPrimary">#e62117</color>
     <color name="ColorPrimaryDark">#c31c13</color>
     <color name="tabsScrollColor">#ffff</color>
+    <item name="itemsRed" type="color">#ed5659</item>
 </resources>

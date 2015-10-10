@@ -1,23 +1,21 @@
 package robo4you.at.missioncontrolandroid;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
-import com.jjoe64.graphview.GraphView;
-
 import java.util.ArrayList;
 
-public class Sensors extends Fragment{
+/**
+ * Created by Raphael on 10.10.2015.
+ */
+public class Motors extends Fragment {
 
-    ArrayList<Sensor> sensors = new ArrayList<>();
+    ArrayList<Motor> motors = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -26,10 +24,10 @@ public class Sensors extends Fragment{
         int px = (int) ((50 * MainActivity.getDisplay_density()) + 0.5);
         scrollView.setPadding(0, 0, 0, px);
         LinearLayout layout = new LinearLayout(getActivity().getApplicationContext());
-        layout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        layout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         layout.setOrientation(LinearLayout.VERTICAL);
-        for (Sensor sensor:this.sensors){
-            layout.addView(sensor.getLayout());
+        for (Motor motor:this.motors){
+            layout.addView(motor.getLayout());
         }
         scrollView.addView(layout);
         return scrollView;

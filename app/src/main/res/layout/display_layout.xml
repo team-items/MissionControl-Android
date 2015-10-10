@@ -6,17 +6,10 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <include
-        android:id="@+id/tool_bar"
-        layout="@layout/tool_bar"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        />
-
     <robo4you.at.missioncontrolandroid.SlidingTabLayout.SlidingTabLayout
         android:id="@+id/tabs"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:elevation="2dp"
         android:layout_alignParentBottom="true"
         android:background="@color/ColorPrimary"

@@ -31,15 +31,29 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         if (position == 0) // if the position is 0 we are returning the First tab
         {
             Sensors tab1 = new Sensors();
-            tab1.main = main;
             tab1.sensors.add(new Sensor(false,0,10,"Test",main.getApplicationContext()));
+            tab1.sensors.add(new Sensor(false,0,10,"Test",main.getApplicationContext()));
+            tab1.sensors.add(new Sensor(false,0,10,"Test",main.getApplicationContext()));
+            tab1.sensors.add(new Sensor(false,0,10,"Test",main.getApplicationContext()));
+            tab1.sensors.add(new Sensor(false,0,10,"Test",main.getApplicationContext()));
+            tab1.sensors.add(new Sensor(false,0,10,"Test",main.getApplicationContext()));
+            tab1.sensors.add(new Sensor(false,0,10,"Test",main.getApplicationContext()));
+
+
             return tab1;
         }
         else             // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
         {
-            Sensors tab2 = new Sensors();
-            tab2.main = main;
-            tab2.sensors.add(new Sensor(false,0,10,"Test",main.getApplicationContext()));
+            Motors tab2 = new Motors();
+            tab2.motors.add(new Motor(33,40,"Motor 1",main.getApplicationContext()));
+
+            tab2.motors.add(new Motor(0,100,"Motor 1",main.getApplicationContext()));
+            tab2.motors.add(new Motor(0,100,"Motor 1",main.getApplicationContext()));
+            tab2.motors.add(new Motor(0,100,"Motor 1",main.getApplicationContext()));
+            tab2.motors.add(new Motor(0,100,"Motor 1",main.getApplicationContext()));
+            tab2.motors.add(new Motor(0,100,"Motor 1",main.getApplicationContext()));
+
+
             return tab2;
         }
 

@@ -2,14 +2,18 @@ package robo4you.at.missioncontrolandroid;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.series.DataPoint;
@@ -35,15 +39,24 @@ public class Sensor implements View.OnClickListener{
     final int VALUES_TO_DISPLAY = 50;
 
     public Sensor(boolean isDigital, int min, int max, String label, Context context) {
-        LinearLayout layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.sensors_layout, null);
+        LinearLayout layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.sensors_layout,null);
+        layout.setClickable(true);
         graph = (GraphView)layout.findViewById(R.id.graph);
-        graph.getGridLabelRenderer().setGridColor(Color.BLACK);
+
+        GridLabelRenderer labelRenderer = graph.getGridLabelRenderer();
+        labelRenderer.setGridColor(Color.BLACK);
+        labelRenderer.setVerticalLabelsColor(Color.BLACK);
+        labelRenderer.setHorizontalLabelsColor(Color.BLACK);
+        labelRenderer.reloadStyles();
+
         value = (TextView)layout.findViewById(R.id.sensor_value);
         labelView = (TextView)layout.findViewById(R.id.sensor_name);
+        Typeface font = MainActivity.getTypeface();
+        value.setTypeface(font);
+        labelView.setTypeface(font);
 
         this.isDigital = isDigital;
         this.label = label;
-        this.labelView = new TextView(context);
         labelView.setText(label);
         if(isDigital){
             this.min = 0;
@@ -52,18 +65,20 @@ public class Sensor implements View.OnClickListener{
             this.min = min;
             this.max = max;
             series = new LineGraphSeries<DataPoint>();
-            series.setColor(Color.BLACK);
-            graph.setTitleColor(Color.BLACK);
+            series.setColor(context.getResources().getColor(R.color.itemsRed));
             graph.addSeries(series);
         }
 
         layout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
-        graph = (GraphView)layout.findViewById(R.id.graph);
+        layout.setOnClickListener(this);
         if (isDigital){
             graph.setVisibility(View.GONE);
         }else{
             layout.setOnClickListener(this);
+            graph.setOnClickListener(this);
+            value.setOnClickListener(this);
+            labelView.setOnClickListener(this);
         }
 
         this.sensor_layout = layout;
