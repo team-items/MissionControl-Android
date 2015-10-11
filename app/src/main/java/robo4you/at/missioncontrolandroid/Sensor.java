@@ -39,8 +39,9 @@ public class Sensor implements View.OnClickListener {
     public Sensor(boolean isDigital, int min, int max, String label, Context context) {
         LinearLayout layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.sensors_layout, null);
         layout.setClickable(true);
+        int border = (int)MainActivity.pxFromDp(context,5f);
         graph = (GraphView) layout.findViewById(R.id.graph);
-
+        ((LinearLayout.LayoutParams)graph.getLayoutParams()).setMargins(border,border,border,border);
         Viewport viewport = graph.getViewport();
         viewport.setYAxisBoundsManual(true);
         viewport.setMinY(min);
@@ -72,9 +73,10 @@ public class Sensor implements View.OnClickListener {
             series.setColor(context.getResources().getColor(R.color.itemsRed));
             graph.addSeries(series);
         }
-
-        layout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT));
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        layoutParams.setMargins(border,border,border,border);
+        layout.setLayoutParams(layoutParams);
         layout.setOnClickListener(this);
         if (isDigital) {
             graph.setVisibility(View.GONE);

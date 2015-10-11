@@ -1,5 +1,6 @@
 package robo4you.at.missioncontrolandroid;
 
+import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -56,6 +57,13 @@ public class MainActivity extends ActionBarActivity{
     }
     public static Typeface getTypeface(){
         return font;
+    }
+    public static float dpFromPx(final Context context, final float px) {
+        return px / context.getResources().getDisplayMetrics().density;
+    }
+
+    public static float pxFromDp(final Context context, final float dp) {
+        return dp * context.getResources().getDisplayMetrics().density;
     }
 
 

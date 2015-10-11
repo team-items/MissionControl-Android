@@ -1,17 +1,12 @@
 package robo4you.at.missioncontrolandroid;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-
-import com.jjoe64.graphview.GraphView;
 
 import java.util.ArrayList;
 
@@ -28,6 +23,7 @@ public class Sensors extends Fragment{
         LinearLayout layout = new LinearLayout(getActivity().getApplicationContext());
         layout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         layout.setOrientation(LinearLayout.VERTICAL);
+        scrollView.setBackgroundColor(getResources().getColor(R.color.backgroundColorGraph));
         for (Sensor sensor:this.sensors){
             layout.addView(sensor.getLayout());
         }
