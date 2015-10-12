@@ -21,10 +21,11 @@ public class LoginScreen extends ActionBarActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
+        Log.e("missioncontrol","onCreate in Login");
         Button connect = (Button)findViewById(R.id.connectbtn);
         connect.setOnClickListener(this);
-        mydecoderview = (QRCodeReaderView)findViewById(R.id.qrdecoderview);
-        mydecoderview.setOnQRCodeReadListener(this);
+        //mydecoderview = (QRCodeReaderView)findViewById(R.id.qrdecoderview);
+        //mydecoderview.setOnQRCodeReadListener(this);
     }
 
     @Override
@@ -56,12 +57,12 @@ public class LoginScreen extends ActionBarActivity implements View.OnClickListen
     @Override
     protected void onResume() {
         super.onResume();
-        mydecoderview.getCameraManager().startPreview();
+        //mydecoderview.getCameraManager().startPreview();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        mydecoderview.getCameraManager().stopPreview();
+        //mydecoderview.getCameraManager().stopPreview();
     }
 }
