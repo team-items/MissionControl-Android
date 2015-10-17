@@ -37,7 +37,7 @@
     </LinearLayout>
 
     <com.jjoe64.graphview.GraphView
-        android:background="@color/backgroundColorGraph"
+        android:background="@drawable/round_edges"
         android:id="@+id/graph"
         android:layout_width="match_parent"
         android:layout_height="125dip"
