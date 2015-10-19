@@ -21,14 +21,6 @@
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:layout_weight="1"
-        ></android.support.v4.view.ViewPager>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#ffffff"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
-    </View>
+        android:background="#ffffff"></android.support.v4.view.ViewPager>
 
 </RelativeLayout>

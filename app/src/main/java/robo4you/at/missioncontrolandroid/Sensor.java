@@ -71,11 +71,13 @@ public class Sensor implements View.OnClickListener {
             this.max = max;
             series = new LineGraphSeries<DataPoint>();
             series.setColor(context.getResources().getColor(R.color.itemsRed));
+            series.setBackgroundColor(context.getResources().getColor(R.color.backgroundColorGraph));
             graph.addSeries(series);
+            graph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.NONE);
         }
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
-        layoutParams.setMargins(border,border,border,border);
+        layoutParams.setMargins(border, border, border, border);
         layout.setLayoutParams(layoutParams);
         layout.setOnClickListener(this);
         if (isDigital) {
@@ -86,7 +88,6 @@ public class Sensor implements View.OnClickListener {
             value.setOnClickListener(this);
             labelView.setOnClickListener(this);
         }
-
         this.sensor_layout = layout;
         Thread thread = new Thread(new UpdateGraph());
         thread.start();

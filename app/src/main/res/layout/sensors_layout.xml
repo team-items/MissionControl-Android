@@ -12,7 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp">
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp">
 
         <TextView
             android:id="@+id/sensor_name"
@@ -37,12 +39,13 @@
     </LinearLayout>
 
     <com.jjoe64.graphview.GraphView
-        android:background="@drawable/round_edges"
         android:id="@+id/graph"
         android:layout_width="match_parent"
         android:layout_height="125dip"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="10dp"
+        android:background="#ffffff"
+        android:orientation="vertical" />
 
 </LinearLayout>

@@ -2,6 +2,7 @@ package robo4you.at.missioncontrolandroid;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -38,6 +39,7 @@ public class Motor {
         textView_value.setText("" + min);
         go = (Button) layout.findViewById(R.id.go);
         seekBar = (SeekBar)layout.findViewById(R.id.seekBar);
+        seekBar.getProgressDrawable().setColorFilter(context.getResources().getColor(R.color.itemsRed), PorterDuff.Mode.MULTIPLY);
 
         final float unit;
         if (min>=0){
