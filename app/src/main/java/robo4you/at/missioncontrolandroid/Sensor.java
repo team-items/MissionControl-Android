@@ -4,17 +4,23 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.DataPointInterface;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.jjoe64.graphview.series.OnDataPointTapListener;
+import com.jjoe64.graphview.series.Series;
 
 import java.util.Random;
 
@@ -36,17 +42,20 @@ public class Sensor implements View.OnClickListener {
     final int VALUES_TO_DISPLAY = 50;
     Handler handler = new Handler();
 
-    public Sensor(boolean isDigital, int min, int max, String label, Context context) {
+    public Sensor(boolean isDigital, int min, int max, String label, final Context context) {
         LinearLayout layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.sensors_layout, null);
         layout.setClickable(true);
         int border = (int)MainActivity.pxFromDp(context,5f);
         graph = (GraphView) layout.findViewById(R.id.graph);
-        ((LinearLayout.LayoutParams)graph.getLayoutParams()).setMargins(border,border,border,border);
+        ((LinearLayout.LayoutParams)graph.getLayoutParams()).setMargins(border, border, border, border);
+
         Viewport viewport = graph.getViewport();
         viewport.setYAxisBoundsManual(true);
         viewport.setMinY(min);
         viewport.setMaxY(max);
+        viewport.setXAxisBoundsManual(false);
         viewport.setScrollable(true);
+
 
         GridLabelRenderer labelRenderer = graph.getGridLabelRenderer();
         labelRenderer.setGridColor(Color.BLACK);
@@ -72,6 +81,13 @@ public class Sensor implements View.OnClickListener {
             series = new LineGraphSeries<DataPoint>();
             series.setColor(context.getResources().getColor(R.color.itemsRed));
             series.setBackgroundColor(context.getResources().getColor(R.color.backgroundColorGraph));
+            series.setOnDataPointTapListener(new OnDataPointTapListener() {
+                @Override
+                public void onTap(Series series, DataPointInterface dataPoint) {
+                    Toast.makeText(context,""+dataPoint.getY(),Toast.LENGTH_SHORT).show();
+                    Log.e("missioncontrol","X:"+dataPoint.getY());
+                }
+            });
             graph.addSeries(series);
             graph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.NONE);
         }
@@ -84,7 +100,7 @@ public class Sensor implements View.OnClickListener {
             graph.setVisibility(View.GONE);
         } else {
             layout.setOnClickListener(this);
-            graph.setOnClickListener(this);
+            //graph.setOnClickListener(this);
             value.setOnClickListener(this);
             labelView.setOnClickListener(this);
         }

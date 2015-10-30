@@ -25,16 +25,16 @@
                 android:src="@mipmap/missioncontrol_white_1024" />
 
             <EditText
-                android:layout_width="match_parent"
+                android:layout_width="179dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/editText"
-                android:layout_gravity="center"
+                android:id="@+id/connectionIP"
+                android:layout_gravity="left|center"
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
                 android:textAlignment="center"
                 android:layout_marginTop="30dp"
-                
-                />
+
+                android:hint="IP" />
 
             <Button
                 android:layout_width="wrap_content"
@@ -46,6 +46,18 @@
                 android:background="@color/itemsRed"
                 android:textColor="#ffffff"
                 />
+
+            <EditText
+                android:layout_width="69dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/connectionPort"
+                android:layout_gravity="right|center_vertical"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:textAlignment="center"
+                android:layout_marginTop="30dp"
+                android:hint="Port" />
+
         </FrameLayout>
 
         <FrameLayout

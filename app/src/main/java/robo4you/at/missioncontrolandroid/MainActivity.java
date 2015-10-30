@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+
+import java.io.IOException;
+import java.net.Socket;
 
 import robo4you.at.missioncontrolandroid.SlidingTabLayout.SlidingTabLayout;
 
@@ -19,6 +23,7 @@ public class MainActivity extends ActionBarActivity{
     int Numboftabs =2;
     static float display_density;
     static Typeface font;
+    Socket socket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +55,21 @@ public class MainActivity extends ActionBarActivity{
 
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
+
+        final String ip = getIntent().getStringExtra("ip");
+        final String port = getIntent().getStringExtra("port");
+        Thread connectionThread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    socket = new Socket(ip, Integer.parseInt(port));
+                } catch (IOException e) {
+                    Log.e("missioncontrol","IOException: "+e.getMessage());
+                }
+            }
+        };
+        connectionThread.start();
+
     }
 
     public static float getDisplay_density(){

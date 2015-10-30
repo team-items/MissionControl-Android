@@ -40,7 +40,7 @@ public class Motor {
         go = (Button) layout.findViewById(R.id.go);
         seekBar = (SeekBar)layout.findViewById(R.id.seekBar);
         seekBar.getProgressDrawable().setColorFilter(context.getResources().getColor(R.color.itemsRed), PorterDuff.Mode.MULTIPLY);
-
+        seekBar.getThumb().setColorFilter(context.getResources().getColor(R.color.itemsRed), PorterDuff.Mode.SRC_IN);
         final float unit;
         if (min>=0){
             unit = ((float)max-(float)min)/100;
