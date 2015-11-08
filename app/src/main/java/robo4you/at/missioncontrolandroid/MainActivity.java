@@ -68,7 +68,7 @@ public class MainActivity extends ActionBarActivity{
                 }
             }
         };
-        connectionThread.start();
+        //connectionThread.start();
 
     }
 

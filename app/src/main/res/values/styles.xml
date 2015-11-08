@@ -7,7 +7,11 @@
         <item name="android:textColorPrimary">#000</item>
         <item name="android:color">#000</item>
         <item name="android:navigationBarColor">#f43254</item>
+    </style>
 
+    <style name="AppTheme.NumberPicker">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
     </style>
 
 </resources>

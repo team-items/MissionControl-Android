@@ -11,10 +11,10 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     CharSequence Titles[]; // This will Store the Titles of the Tabs which are Going to be passed when ViewPagerAdapter is created
-    int NumbOfTabs; // Store the number of tabs, this will also be passed when the ViewPagerAdapter is created
+    int NumbOfTabs = 2; // Store the number of tabs, this will also be passed when the ViewPagerAdapter is created
     Activity main;
     Sensors sensorsTab = new Sensors();
-    Motors motorTab = new Motors();
+    Controllers motorTab = new Controllers();
 
 
     // Build a Constructor and assign the passed Values to appropriate values in the class
@@ -41,14 +41,20 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         }
         else             // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
         {
-            motorTab.motors.add(new Motor(33,40,"Motor 1",main.getApplicationContext()));
-            motorTab.motors.add(new Motor(33,40,"Motor 1",main.getApplicationContext()));
-            motorTab.motors.add(new Motor(33,40,"Motor 1",main.getApplicationContext()));
-            motorTab.motors.add(new Motor(-1024,1024,"Motor 1",main.getApplicationContext()));
-            motorTab.motors.add(new Motor(-1024,1024,"Motor 1",main.getApplicationContext()));
-            motorTab.motors.add(new Motor(-1024,1024,"Motor 1",main.getApplicationContext()));
-            motorTab.motors.add(new Motor(-1024,1024,"Motor 1",main.getApplicationContext()));
+
+            motorTab.controllers.add(new Motor(33, 40, "Motor 1", main.getApplicationContext()));
+            motorTab.controllers.add(new Motor(33, 40, "Motor 1", main.getApplicationContext()));
+            motorTab.controllers.add(new Motor(33, 40, "Motor 1", main.getApplicationContext()));
+            motorTab.controllers.add(new Motor(-1024, 1024, "Motor 1", main.getApplicationContext()));
+
+            motorTab.controllers.add(new Button("My Button 1", main.getApplicationContext()));
+            motorTab.controllers.add(new Button("My Button 1", main.getApplicationContext()));
+            motorTab.controllers.add(new Button("My Button 1", main.getApplicationContext()));
+            motorTab.controllers.add(new Button("My Button 1", main.getApplicationContext()));
+
+
             return motorTab;
+
         }
 
 

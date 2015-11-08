@@ -62,5 +62,5 @@
         android:layout_marginTop="5dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:background="@color/itemsRed"/>
+        android:background="@color/itemsRed" />
 </LinearLayout>

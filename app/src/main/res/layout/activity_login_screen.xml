@@ -34,7 +34,7 @@
                 android:textAlignment="center"
                 android:layout_marginTop="30dp"
 
-                android:hint="IP" />
+                android:hint="IP/Hostname" />
 
             <Button
                 android:layout_width="wrap_content"

@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="robo4you.at.missioncontrolandroid" >
+
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/icon"
@@ -10,16 +14,17 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".LoginScreen"
-            android:label="@string/title_activity_login_screen"
-            android:exported="true">
-
+            android:exported="true"
+            android:label="@string/title_activity_login_screen">
         </activity>
         <activity
-            android:exported="true"
             android:name=".MainActivity"
+            android:exported="true"
             android:label="@string/title_activity_main" >
         </activity>
+        <activity
+            android:name=".NumPicker"
+            android:theme="@style/AppTheme.NumberPicker"></activity>
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
 </manifest>
