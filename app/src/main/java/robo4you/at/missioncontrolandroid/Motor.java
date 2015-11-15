@@ -1,8 +1,10 @@
 package robo4you.at.missioncontrolandroid;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -13,21 +15,22 @@ import android.widget.TextView;
 /**
  * Created by Raphael on 10.10.2015.
  */
-public class Motor extends Controller {
+public class Motor extends Controller{
 
     String label;
-    double value, max;
-    final double min;
+    private double value, max;
+    private final double min;
     TextView textView_label, textView_value;
     SeekBar seekBar;
     Button go;
     LinearLayout layout;
     final Context context;
 
-    public Motor(final double min, final double max, String label, final Context context) {
-        this.min = min;
-        this.max = max;
+    public Motor(final double minValue, final double maxValue, final String label, final Context context) {
+        this.min = minValue;
+        this.max = maxValue;
         this.context = context;
+        this.value = minValue;
         layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.motor_servo_layout, null);
         textView_label = (TextView) layout.findViewById(R.id.label);
         textView_label.setTextColor(Color.BLACK);
@@ -37,6 +40,20 @@ public class Motor extends Controller {
         textView_label.setTypeface(MainActivity.getTypeface());
         textView_value.setTypeface(MainActivity.getTypeface());
         textView_value.setText("" + min);
+        NumPicker.motor = this;
+        textView_value.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NumPicker.viewValue = textView_value;
+                Intent intent = new Intent(context.getApplicationContext(),NumPicker.class);
+                intent.putExtra("min",min);
+                intent.putExtra("max",max);
+                intent.putExtra("value",value);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
+        });
+
         go = (Button) layout.findViewById(R.id.go);
         seekBar = (SeekBar) layout.findViewById(R.id.seekBar);
         seekBar.getProgressDrawable().setColorFilter(context.getResources().getColor(R.color.itemsRed), PorterDuff.Mode.MULTIPLY);
@@ -50,8 +67,8 @@ public class Motor extends Controller {
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                double motor_value = (min + unit * progress + 0.5);
-                String valueText = "" + Math.round(motor_value);
+                double motor_value = (min + unit * progress);
+                String valueText = "" + (Math.round(motor_value*10f)/10f);
                 textView_value.setText(valueText);
                 value = motor_value;
             }
@@ -82,6 +99,9 @@ public class Motor extends Controller {
         return value;
     }
 
-
+    public void setValue(double value){
+        this.value = value;
+        Log.e("missioncontrol","change value to: "+value);
+    }
 
 }

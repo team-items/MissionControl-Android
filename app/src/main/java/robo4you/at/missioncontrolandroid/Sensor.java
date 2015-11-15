@@ -56,7 +56,6 @@ public class Sensor implements View.OnClickListener {
         viewport.setXAxisBoundsManual(false);
         viewport.setScrollable(true);
 
-
         GridLabelRenderer labelRenderer = graph.getGridLabelRenderer();
         labelRenderer.setGridColor(Color.BLACK);
         labelRenderer.setVerticalLabelsColor(Color.BLACK);
@@ -106,7 +105,7 @@ public class Sensor implements View.OnClickListener {
         }
         this.sensor_layout = layout;
         Thread thread = new Thread(new UpdateGraph());
-        thread.start();
+        //thread.start();
     }
 
     public LinearLayout getLayout() {
@@ -122,6 +121,10 @@ public class Sensor implements View.OnClickListener {
             graph.setVisibility(View.VISIBLE);
             visible = true;
         }
+    }
+    public void hideGraph(){
+        graph.setVisibility(View.GONE);
+        visible = false;
     }
 
     public void addPoint(int value) {

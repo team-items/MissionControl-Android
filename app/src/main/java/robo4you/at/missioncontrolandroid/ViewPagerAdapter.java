@@ -45,8 +45,9 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             motorTab.controllers.add(new Motor(33, 40, "Motor 1", main.getApplicationContext()));
             motorTab.controllers.add(new Motor(33, 40, "Motor 1", main.getApplicationContext()));
             motorTab.controllers.add(new Motor(33, 40, "Motor 1", main.getApplicationContext()));
-            motorTab.controllers.add(new Motor(-1024, 1024, "Motor 1", main.getApplicationContext()));
-
+            motorTab.controllers.add(new Motor(-10, 10, "Motor 1", main.getApplicationContext()));
+            motorTab.controllers.add(new Motor(-10, 10, "Motor 1", main.getApplicationContext()));
+            motorTab.controllers.add(new Motor(-10, 10, "Motor 1", main.getApplicationContext()));
             motorTab.controllers.add(new Button("My Button 1", main.getApplicationContext()));
             motorTab.controllers.add(new Button("My Button 1", main.getApplicationContext()));
             motorTab.controllers.add(new Button("My Button 1", main.getApplicationContext()));

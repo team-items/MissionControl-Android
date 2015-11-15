@@ -15,6 +15,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import robo4you.at.missioncontrolandroid.MainActivity;
 import robo4you.at.missioncontrolandroid.R;
 
 /**
