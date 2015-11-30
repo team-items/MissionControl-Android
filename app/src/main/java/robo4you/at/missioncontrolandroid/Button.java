@@ -18,13 +18,6 @@ public class Button extends Controller {
     private Switch switchWidget;
     private TextView label_tv;
 
-    public Button(String label, int value, final Context context) {
-        this.value = value;
-        this.context = context;
-        this.label = label;
-        generateLayout();
-    }
-
     private void generateLayout() {
         layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.button_layout, null);
         this.label_tv = (TextView) layout.findViewById(R.id.motor_label);
@@ -34,7 +27,6 @@ public class Button extends Controller {
     }
 
     public Button(String label, final Context context) {
-        this.value = 0;
         this.context = context;
         this.label = label;
         generateLayout();
@@ -51,6 +43,6 @@ public class Button extends Controller {
     }
 
     public boolean isClicked() {
-        return value == 1;
+        return switchWidget.isActivated();
     }
 }

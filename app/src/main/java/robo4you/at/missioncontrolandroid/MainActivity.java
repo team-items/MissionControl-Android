@@ -10,6 +10,7 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.LinkedList;
 
 import robo4you.at.missioncontrolandroid.SlidingTabLayout.SlidingTabLayout;
 
@@ -23,6 +24,8 @@ public class MainActivity extends ActionBarActivity{
     int Numboftabs =2;
     static float display_density;
     static Typeface font;
+    static LinkedList<Sensor> sensors = new LinkedList<>();
+    static LinkedList<Controller> controllers = new LinkedList<>();
     Socket socket;
 
     @Override
@@ -85,6 +88,10 @@ public class MainActivity extends ActionBarActivity{
     public static float pxFromDp(final Context context, final float dp) {
         return dp * context.getResources().getDisplayMetrics().density;
     }
-
-
+    public static void addSensor(Sensor sensor){
+        sensors.add(sensor);
+    }
+    public static void addController(Controller controller){
+        controllers.add(controller);
+    }
 }

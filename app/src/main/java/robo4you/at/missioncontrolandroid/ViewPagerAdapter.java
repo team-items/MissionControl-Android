@@ -32,11 +32,12 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
         if (position == 0) // if the position is 0 we are returning the First tab
         {
-            sensorsTab.sensors.add(new Sensor(false,0,10,"Test",main.getApplicationContext()));
-            sensorsTab.sensors.add(new Sensor(false,0,10,"Test",main.getApplicationContext()));
-            sensorsTab.sensors.add(new Sensor(false,0,10,"Test",main.getApplicationContext()));
-            sensorsTab.sensors.add(new Sensor(false,0,10,"Test",main.getApplicationContext()));
-            sensorsTab.sensors.add(new Sensor(false,0,10,"Test",main.getApplicationContext()));
+            sensorsTab.sensors.add(new Sensor(0,10,"Test",main.getApplicationContext()));
+            sensorsTab.sensors.add(new Sensor(0,10,"Test",main.getApplicationContext()));
+            sensorsTab.sensors.add(new Sensor(0,10,"Test",main.getApplicationContext()));
+            sensorsTab.sensors.add(new Sensor(0,10,"Test",main.getApplicationContext()));
+            sensorsTab.sensors.add(new Sensor(0,10,"Test",main.getApplicationContext()));
+            sensorsTab.sensors.add(new Sensor(0,10,"Test",main.getApplicationContext()));
             return sensorsTab;
         }
         else             // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
@@ -52,8 +53,6 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             motorTab.controllers.add(new Button("My Button 1", main.getApplicationContext()));
             motorTab.controllers.add(new Button("My Button 1", main.getApplicationContext()));
             motorTab.controllers.add(new Button("My Button 1", main.getApplicationContext()));
-
-
             return motorTab;
 
         }
