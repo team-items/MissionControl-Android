@@ -41,6 +41,7 @@ public class Sensor implements View.OnClickListener {
     int values_to_display = 50;
     Handler handler = new Handler();
     final Context context;
+    boolean displayGraph = true;
 
     public Sensor(int min, int max, String label, final Context context) {
         this.min = min;
@@ -52,18 +53,21 @@ public class Sensor implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if (visible) {
-            graph.setVisibility(View.GONE);
-            visible = false;
-        } else {
-            graph.setVisibility(View.VISIBLE);
-            visible = true;
+        if (displayGraph) {
+            if (visible) {
+                graph.setVisibility(View.GONE);
+                visible = false;
+            } else {
+                graph.setVisibility(View.VISIBLE);
+                visible = true;
+            }
         }
     }
 
     public void hideGraph() {
         graph.setVisibility(View.GONE);
         visible = false;
+        displayGraph = false;
     }
 
     public void addPoint(int value) {

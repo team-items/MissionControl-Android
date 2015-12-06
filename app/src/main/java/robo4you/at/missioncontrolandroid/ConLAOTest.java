@@ -19,28 +19,13 @@ public class ConLAOTest extends ActionBarActivity {
                 "\"MaxBound\" : 1023.9999999,\n" +
                 "\"Graph\" : 20\n" +
                 "},\n" +
-                "\"Integer\" : {\n" +
-                "\"SomeIntegerNumber\" : {\n" +
-                "\"DataType\" : \"Integer\",\n" +
-                "\"MinBound\" : 0,\n" +
-                "\"MaxBound\" : 1023\n" +
+                "\"SomeFloatNumber2\" : {\n" +
+                "\"DataType\" : \"Float\",\n" +
+                "\"MinBound\" : -1023.9999999,\n" +
+                "\"MaxBound\" : 1023.9999999,\n" +
                 "}\n" +
-                "},\n" +
                 "},\n" +
                 "\"Controller\" : {\n" +
-                "\"SomeGroup\" : {\n" +
-                "\"SomeSlider\" : {\n" +
-                "\"ControlType\" : \"Slider\",\n" +
-                "\"MinBound\" : 0,\n" +
-                "\"MaxBound\" : 100\n" +
-                "},\n" +
-                "\"SomeButton\" : {\n" +
-                "\"ControlType\" : \"Button\"\n" +
-                "}\n" +
-                "},\n" +
-                "\"SomeOtherButton\" : {\n" +
-                "\"ControlType\" : \"Button\"\n" +
-                "}\n" +
                 "}\n" +
                 "}\n" +
                 "}";

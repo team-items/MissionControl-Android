@@ -2,6 +2,7 @@ package robo4you.at.missioncontrolandroid.Messages;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import java.util.Iterator;
 
@@ -11,6 +12,7 @@ import robo4you.at.missioncontrolandroid.JSONLibary.JSONException;
 import robo4you.at.missioncontrolandroid.JSONLibary.JSONObject;
 import robo4you.at.missioncontrolandroid.MainActivity;
 import robo4you.at.missioncontrolandroid.Motor;
+import robo4you.at.missioncontrolandroid.R;
 import robo4you.at.missioncontrolandroid.Sensor;
 
 /**
@@ -31,6 +33,7 @@ public class ConnLAO {
         LinearLayout layout = new LinearLayout(context);
         layout.setOrientation(LinearLayout.VERTICAL);
         Iterator<String> iterator = information.keys();
+
         Sensor sensor = null;
         //sensors
         while (iterator.hasNext()) {
@@ -40,12 +43,7 @@ public class ConnLAO {
             if (obj.has("DataType")) {
                 sensor = new Sensor((int) obj.getDouble("MinBound"),
                         (int) obj.getDouble("MaxBound"), name, context);
-                if (!obj.has("Graph")) {
-                    sensor.hideGraph();
-                }else{
-                    int numbers_to_display = obj.getInt("Graph");
-                    sensor.setValues_to_display(numbers_to_display);
-                }
+
             } else {
                 Iterator<String> subSensors = information.getJSONObject(name).keys();
                 while (subSensors.hasNext()) {
@@ -54,15 +52,18 @@ public class ConnLAO {
                     if (obj.has("DataType")) {
                         sensor = new Sensor((int) jsonObject.getDouble("MinBound"),
                                 (int) jsonObject.getDouble("MaxBound"), sensorName, context);
+
+                    }
+                    if (sensor != null) {
+                        layout.addView(sensor.generateLayout(null));
+                        LinearLayout divider = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.divider, null);
                         if (!obj.has("Graph")) {
                             sensor.hideGraph();
                         }else{
                             int numbers_to_display = obj.getInt("Graph");
                             sensor.setValues_to_display(numbers_to_display);
                         }
-                    }
-                    if (sensor != null) {
-                        layout.addView(sensor.generateLayout(null));
+                        layout.addView(divider);
                         MainActivity.addSensor(sensor);
                         sensor = null;
                     }
@@ -71,6 +72,14 @@ public class ConnLAO {
             if (sensor != null) {
                 Log.e("missioncontrol",""+(layout!=null));
                 layout.addView(sensor.generateLayout(null));
+                LinearLayout divider = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.divider, null);
+                if (!obj.has("Graph")) {
+                    sensor.hideGraph();
+                }else{
+                    int numbers_to_display = obj.getInt("Graph");
+                    sensor.setValues_to_display(numbers_to_display);
+                }
+                layout.addView(divider);
                 MainActivity.addSensor(sensor);
             }
         }
@@ -106,6 +115,8 @@ public class ConnLAO {
                     }
                     if (control != null) {
                         layout.addView(control.generateLayout(null));
+                        LinearLayout divider = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.divider, null);
+                        layout.addView(divider);
                         MainActivity.addController(control);
                         control = null;
                     }
@@ -113,6 +124,8 @@ public class ConnLAO {
             }
             if (control != null) {
                 layout.addView(control.generateLayout(null));
+                LinearLayout divider = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.divider, null);
+                layout.addView(divider);
                 MainActivity.addController(control);
             }
         }
