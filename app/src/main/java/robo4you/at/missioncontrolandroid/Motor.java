@@ -31,7 +31,13 @@ public class Motor extends Controller{
         this.max = maxValue;
         this.context = context;
         this.value = minValue;
-        layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.motor_servo_layout, null);
+        this.label = label;
+    }
+
+
+    @Override
+    public LinearLayout generateLayout(View parent) {
+        layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.motor_servo_layout, (LinearLayout)parent);
         textView_label = (TextView) layout.findViewById(R.id.label);
         textView_label.setTextColor(Color.BLACK);
         textView_label.setText(label);
@@ -63,7 +69,7 @@ public class Motor extends Controller{
             unit = (max - min) / 100;
         } else {
             unit = (Math.abs(min) + Math.abs(max)) / 100;
-            }
+        }
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -89,8 +95,6 @@ public class Motor extends Controller{
                 //send update message
             }
         });
-    }
-    public LinearLayout getLayout(){
         return layout;
     }
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="robo4you.at.missioncontrolandroid" >
+    package="robo4you.at.missioncontrolandroid">
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -11,20 +11,21 @@
         android:icon="@drawable/icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".LoginScreen"
             android:exported="true"
-            android:label="@string/title_activity_login_screen">
-        </activity>
+            android:label="@string/title_activity_login_screen"></activity>
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/title_activity_main" >
-        </activity>
+            android:label="@string/title_activity_main"></activity>
         <activity
             android:name=".NumPicker"
-            android:theme="@style/AppTheme.NumberPicker"></activity>
+            android:theme="@style/AppTheme.NumberPicker" />
+        <activity
+            android:name=".ConLAOTest"
+            android:label="@string/title_activity_con_laotest"></activity>
     </application>
 
 </manifest>

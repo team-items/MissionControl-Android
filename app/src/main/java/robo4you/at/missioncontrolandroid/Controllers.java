@@ -27,7 +27,7 @@ public class Controllers extends Fragment {
         layout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         layout.setOrientation(LinearLayout.VERTICAL);
         for (Controller controller : this.controllers) {
-            layout.addView(controller.getLayout());
+            layout.addView(controller.generateLayout(layout));
         }
         scrollView.addView(layout);
         return scrollView;

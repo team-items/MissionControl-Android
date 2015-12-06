@@ -1,6 +1,7 @@
 package robo4you.at.missioncontrolandroid.Messages;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.LinearLayout;
 import java.util.Iterator;
 
@@ -34,10 +35,11 @@ public class ConnLAO {
         //sensors
         while (iterator.hasNext()) {
             String name = iterator.next();
+            Log.e("missioncontrol",name);
             JSONObject obj = information.getJSONObject(name);
             if (obj.has("DataType")) {
-                sensor = new Sensor((int) obj.getDouble("min"),
-                        (int) obj.getDouble("max"), name, context);
+                sensor = new Sensor((int) obj.getDouble("MinBound"),
+                        (int) obj.getDouble("MaxBound"), name, context);
                 if (!obj.has("Graph")) {
                     sensor.hideGraph();
                 }else{
@@ -47,11 +49,11 @@ public class ConnLAO {
             } else {
                 Iterator<String> subSensors = information.getJSONObject(name).keys();
                 while (subSensors.hasNext()) {
-                    String sensorName = iterator.next();
+                    String sensorName = subSensors.next();
                     JSONObject jsonObject = information.getJSONObject(name);
                     if (obj.has("DataType")) {
-                        sensor = new Sensor((int) jsonObject.getDouble("min"),
-                                (int) jsonObject.getDouble("max"), sensorName, context);
+                        sensor = new Sensor((int) jsonObject.getDouble("MinBound"),
+                                (int) jsonObject.getDouble("MaxBound"), sensorName, context);
                         if (!obj.has("Graph")) {
                             sensor.hideGraph();
                         }else{
@@ -60,14 +62,15 @@ public class ConnLAO {
                         }
                     }
                     if (sensor != null) {
-                        layout.addView(sensor.getLayout());
+                        layout.addView(sensor.generateLayout(null));
                         MainActivity.addSensor(sensor);
                         sensor = null;
                     }
                 }
             }
             if (sensor != null) {
-                layout.addView(sensor.getLayout());
+                Log.e("missioncontrol",""+(layout!=null));
+                layout.addView(sensor.generateLayout(null));
                 MainActivity.addSensor(sensor);
             }
         }
@@ -81,35 +84,35 @@ public class ConnLAO {
                 if (controlObj.get("ControlType").toString().equals("Button")) {
                     control = new Button(controlName, context);
                 } else if (controlObj.get("ControlType").toString().equals("Slider")) {
-                    control = new Motor((int) controlObj.getDouble("min"),
-                            (int) controlObj.getDouble("max"),
+                    control = new Motor((int) controlObj.getDouble("MinBound"),
+                            (int) controlObj.getDouble("MaxBound"),
                             controlName,
                             context);
                 }
             } else {
                 Iterator<String> subIterator = controlObj.keys();
                 while (subIterator.hasNext()) {
-                    String sensorName = iterator.next();
-                    JSONObject jsonObject = controller.getJSONObject(sensorName);
+                    String sensorName = subIterator.next();
+                    JSONObject jsonObject = controller.getJSONObject(controlName).getJSONObject(sensorName);
                     if (jsonObject.has("ControlType")) {
                         if (jsonObject.get("ControlType").toString().equals("Button")) {
-                            control = new Button(controlName, context);
+                            control = new Button(sensorName, context);
                         } else if (jsonObject.get("ControlType").toString().equals("Slider")) {
-                            control = new Motor((int) jsonObject.getDouble("min"),
-                                    (int) jsonObject.getDouble("max"),
+                            control = new Motor((int) jsonObject.getDouble("MinBound"),
+                                    (int) jsonObject.getDouble("MaxBound"),
                                     sensorName,
                                     context);
                         }
                     }
                     if (control != null) {
-                        layout.addView(control.getLayout());
+                        layout.addView(control.generateLayout(null));
                         MainActivity.addController(control);
                         control = null;
                     }
                 }
             }
             if (control != null) {
-                layout.addView(control.getLayout());
+                layout.addView(control.generateLayout(null));
                 MainActivity.addController(control);
             }
         }

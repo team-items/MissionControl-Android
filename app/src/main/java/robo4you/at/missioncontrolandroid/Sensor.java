@@ -33,74 +33,21 @@ public class Sensor implements View.OnClickListener {
     String label;
     TextView value;
     TextView labelView;
-    LinearLayout sensor_layout;
+    private LinearLayout sensor_layout;
     GraphView graph;
     private boolean visible = true;
     LineGraphSeries<DataPoint> series;
     private int x = 0;
     int values_to_display = 50;
     Handler handler = new Handler();
+    final Context context;
 
     public Sensor(int min, int max, String label, final Context context) {
-        LinearLayout layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.sensors_layout, null);
-        layout.setClickable(true);
-        int border = (int) MainActivity.pxFromDp(context, 5f);
-        graph = (GraphView) layout.findViewById(R.id.graph);
-        ((LinearLayout.LayoutParams) graph.getLayoutParams()).setMargins(border, border, border, border);
-
-        Viewport viewport = graph.getViewport();
-        viewport.setYAxisBoundsManual(true);
-        viewport.setMinY(min);
-        viewport.setMaxY(max);
-        viewport.setXAxisBoundsManual(false);
-        viewport.setScrollable(true);
-
-        GridLabelRenderer labelRenderer = graph.getGridLabelRenderer();
-        labelRenderer.setGridColor(Color.BLACK);
-        labelRenderer.setVerticalLabelsColor(Color.BLACK);
-        labelRenderer.setHorizontalLabelsColor(Color.TRANSPARENT);
-        labelRenderer.reloadStyles();
-
-        value = (TextView) layout.findViewById(R.id.sensor_value);
-        labelView = (TextView) layout.findViewById(R.id.sensor_name);
-        Typeface font = MainActivity.getTypeface();
-        value.setTypeface(font);
-        labelView.setTypeface(font);
-
-        this.label = label;
-        labelView.setText(label);
         this.min = min;
         this.max = max;
-        series = new LineGraphSeries<DataPoint>();
-        series.setColor(context.getResources().getColor(R.color.itemsRed));
-        series.setBackgroundColor(context.getResources().getColor(R.color.backgroundColorGraph));
-        series.setOnDataPointTapListener(new OnDataPointTapListener() {
-            @Override
-            public void onTap(Series series, DataPointInterface dataPoint) {
-                Toast.makeText(context, "" + dataPoint.getY(), Toast.LENGTH_SHORT).show();
-                Log.e("missioncontrol", "X:" + dataPoint.getY());
-            }
-        });
-        graph.addSeries(series);
-        graph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.NONE);
+        this.label = label;
+        this.context = context;
 
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-        layoutParams.setMargins(border, border, border, border);
-        layout.setLayoutParams(layoutParams);
-        layout.setOnClickListener(this);
-        layout.setOnClickListener(this);
-        //graph.setOnClickListener(this);
-        value.setOnClickListener(this);
-        labelView.setOnClickListener(this);
-
-        this.sensor_layout = layout;
-        Thread thread = new Thread(new UpdateGraph());
-        //thread.start();
-    }
-
-    public LinearLayout getLayout() {
-        return sensor_layout;
     }
 
     @Override
@@ -128,26 +75,56 @@ public class Sensor implements View.OnClickListener {
         this.values_to_display = values_to_display;
     }
 
-    public class UpdateGraph implements Runnable {
+    public LinearLayout generateLayout(View parent){
+        LinearLayout layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.sensors_layout, (LinearLayout) parent);
+        layout.setClickable(true);
+        int border = (int)MainActivity.pxFromDp(context,5f);
+        graph = (GraphView) layout.findViewById(R.id.graph);
+        ((LinearLayout.LayoutParams) graph.getLayoutParams()).setMargins(border, border, border, border);
 
-        @Override
-        public void run() {
+        Viewport viewport = graph.getViewport();
+        viewport.setYAxisBoundsManual(true);
+        viewport.setMinY(min);
+        viewport.setMaxY(max);
+        viewport.setXAxisBoundsManual(false);
+        viewport.setScrollable(true);
 
-            for (int i = 0; i < 200; i++) {
-                handler.post(new Runnable() {
-                    Random r = new Random();
+        GridLabelRenderer labelRenderer = graph.getGridLabelRenderer();
+        labelRenderer.setGridColor(Color.BLACK);
+        labelRenderer.setVerticalLabelsColor(Color.BLACK);
+        labelRenderer.setHorizontalLabelsColor(Color.TRANSPARENT);
+        labelRenderer.reloadStyles();
 
-                    @Override
-                    public void run() {
-                        addPoint(r.nextInt(max));
-                    }
-                });
-                try {
-                    Thread.sleep(50);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+        value = (TextView) layout.findViewById(R.id.sensor_value);
+        labelView = (TextView) layout.findViewById(R.id.sensor_name);
+        Typeface font = MainActivity.getTypeface();
+        value.setTypeface(font);
+        labelView.setTypeface(font);
+        labelView.setText(label);
+        series = new LineGraphSeries<DataPoint>();
+        series.setColor(context.getResources().getColor(R.color.itemsRed));
+        series.setBackgroundColor(context.getResources().getColor(R.color.backgroundColorGraph));
+        series.setOnDataPointTapListener(new OnDataPointTapListener() {
+            @Override
+            public void onTap(Series series, DataPointInterface dataPoint) {
+                Toast.makeText(context, "" + dataPoint.getY(), Toast.LENGTH_SHORT).show();
+                Log.e("missioncontrol", "X:" + dataPoint.getY());
             }
-        }
+        });
+        graph.addSeries(series);
+        graph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.NONE);
+
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        layoutParams.setMargins(border, border, border, border);
+        layout.setLayoutParams(layoutParams);
+        layout.setOnClickListener(this);
+        layout.setOnClickListener(this);
+        //graph.setOnClickListener(this);
+        value.setOnClickListener(this);
+        labelView.setOnClickListener(this);
+
+        this.sensor_layout = layout;
+        return sensor_layout;
     }
 }
