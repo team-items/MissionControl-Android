@@ -34,10 +34,6 @@ public class Button extends Controller {
         return layout;
     }
 
-    @Override
-    public double getValue() {
-        return value;
-    }
 
     public boolean isClicked() {
         return switchWidget.isActivated();

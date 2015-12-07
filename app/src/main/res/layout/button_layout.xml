@@ -18,17 +18,17 @@
             android:textColor="#000"
             android:id="@+id/motor_label"
             android:layout_weight="10"
-            android:paddingStart="20dp" />
+            android:paddingStart="10dp" />
 
         <Switch
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
+            android:layout_marginEnd="5dp"
             android:textOn="On"
+            android:layout_weight="1"
             android:textOff="Off"
             android:id="@+id/switchWidget"
             android:gravity="right"
-            android:layout_weight="2"
-            android:layout_marginRight="10dp"
             android:background="@drawable/round_edges" />
 
     </LinearLayout>

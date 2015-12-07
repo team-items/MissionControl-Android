@@ -38,7 +38,6 @@ public class ConnLAO {
         //sensors
         while (iterator.hasNext()) {
             String name = iterator.next();
-            Log.e("missioncontrol",name);
             JSONObject obj = information.getJSONObject(name);
             if (obj.has("DataType")) {
                 sensor = new Sensor((int) obj.getDouble("MinBound"),
@@ -48,8 +47,9 @@ public class ConnLAO {
                 Iterator<String> subSensors = information.getJSONObject(name).keys();
                 while (subSensors.hasNext()) {
                     String sensorName = subSensors.next();
-                    JSONObject jsonObject = information.getJSONObject(name);
-                    if (obj.has("DataType")) {
+                    JSONObject jsonObject = information.getJSONObject(name).getJSONObject(sensorName);
+                    if (jsonObject.has("DataType")) {
+
                         sensor = new Sensor((int) jsonObject.getDouble("MinBound"),
                                 (int) jsonObject.getDouble("MaxBound"), sensorName, context);
 
@@ -70,7 +70,7 @@ public class ConnLAO {
                 }
             }
             if (sensor != null) {
-                Log.e("missioncontrol",""+(layout!=null));
+
                 layout.addView(sensor.generateLayout(null));
                 LinearLayout divider = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.divider, null);
                 if (!obj.has("Graph")) {
@@ -88,6 +88,7 @@ public class ConnLAO {
         Controller control = null;
         while (iterator.hasNext()) {
             String controlName = iterator.next();
+
             JSONObject controlObj = controller.getJSONObject(controlName);
             if (controlObj.has("ControlType")) {
                 if (controlObj.get("ControlType").toString().equals("Button")) {

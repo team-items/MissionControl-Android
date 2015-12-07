@@ -55,7 +55,6 @@ public class Motor extends Controller{
                 intent.putExtra("min",min);
                 intent.putExtra("max",max);
                 intent.putExtra("value",value);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
         });
@@ -87,8 +86,6 @@ public class Motor extends Controller{
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
-
-        this.label = label;
         go.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,11 +93,6 @@ public class Motor extends Controller{
             }
         });
         return layout;
-    }
-
-    @Override
-    public double getValue() {
-        return value;
     }
 
     public void setValue(double value){

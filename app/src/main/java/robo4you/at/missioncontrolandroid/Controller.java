@@ -10,6 +10,4 @@ public abstract class Controller {
 
 
     public abstract LinearLayout generateLayout(View parent);
-
-    public abstract double getValue();
 }
