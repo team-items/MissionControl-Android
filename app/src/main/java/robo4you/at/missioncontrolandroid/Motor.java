@@ -17,7 +17,7 @@ import android.widget.TextView;
  */
 public class Motor extends Controller{
 
-    String label;
+    private String label;
     private double value, max;
     private final double min;
     TextView textView_label, textView_value;
@@ -98,6 +98,9 @@ public class Motor extends Controller{
     public void setValue(double value){
         this.value = value;
         Log.e("missioncontrol","change value to: "+value);
+    }
+    public String getUniqueIdentifier(){
+        return this.label;
     }
 
 }

@@ -118,7 +118,11 @@ public class ConnLAO {
                         layout.addView(control.generateLayout(null));
                         LinearLayout divider = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.divider, null);
                         layout.addView(divider);
-                        MainActivity.addController(control);
+                        if (control instanceof Button){
+                            MainActivity.addButton((Button) control);
+                        }else{
+                            MainActivity.addMotor((Motor) control);
+                        }
                         control = null;
                     }
                 }
@@ -127,7 +131,11 @@ public class ConnLAO {
                 layout.addView(control.generateLayout(null));
                 LinearLayout divider = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.divider, null);
                 layout.addView(divider);
-                MainActivity.addController(control);
+                if (control instanceof Button){
+                    MainActivity.addButton((Button) control);
+                }else{
+                    MainActivity.addMotor((Motor) control);
+                }
             }
         }
         return layout;

@@ -61,10 +61,10 @@ public class NetworkThread implements Runnable {
                 try {
                     synchronized(sendData){
                         write.writeUTF(sendData);
+                        sendData = "";
                     }
                     write.flush();
                     Log.e("missioncontrol", "data send");
-                    sendData = "";
                     dataToSend = false;
                 } catch (IOException e) {
                     Log.e("missioncontrol",e.getMessage());
@@ -80,8 +80,10 @@ public class NetworkThread implements Runnable {
         }
     }
     public void sendData(String data){
-        this.sendData = data;
-        dataToSend = true;
+        synchronized (sendData){
+            this.sendData = data;
+            dataToSend = true;
+        }
     }
     public void kill(){
         this.run = false;

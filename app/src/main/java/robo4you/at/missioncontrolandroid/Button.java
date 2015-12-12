@@ -34,6 +34,9 @@ public class Button extends Controller {
         return layout;
     }
 
+    public String getUniqueIdentifier(){
+        return this.label;
+    }
 
     public boolean isClicked() {
         return switchWidget.isActivated();

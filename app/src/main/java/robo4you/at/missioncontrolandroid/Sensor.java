@@ -131,4 +131,7 @@ public class Sensor implements View.OnClickListener {
         this.sensor_layout = layout;
         return sensor_layout;
     }
+    public String getUniqueIdentifier(){
+        return this.label;
+    }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="ColorPrimary">#e62117</color>
-    <color name="ColorPrimaryDark">#c31c13</color>
+    <color name="ColorPrimary">@color/itemsRed</color>
+    <color name="ColorPrimaryDark">#D32F2F</color>
     <color name="tabsScrollColor">#ffff</color>
     <item name="itemsRed" type="color">#f43254</item>
     <item name="backgroundColorGraph" type="color">#e3e3e3</item>
