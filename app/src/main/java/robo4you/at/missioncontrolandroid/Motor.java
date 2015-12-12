@@ -37,7 +37,7 @@ public class Motor extends Controller{
 
     @Override
     public LinearLayout generateLayout(View parent) {
-        layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.motor_servo_layout, (LinearLayout)parent);
+        layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.motor_servo_layout, null);
         textView_label = (TextView) layout.findViewById(R.id.label);
         textView_label.setTextColor(Color.BLACK);
         textView_label.setText(label);

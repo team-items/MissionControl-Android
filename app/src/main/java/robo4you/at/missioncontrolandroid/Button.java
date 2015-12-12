@@ -26,7 +26,7 @@ public class Button extends Controller {
 
     @Override
     public LinearLayout generateLayout(View parent) {
-        layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.button_layout, (LinearLayout)parent);
+        layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.button_layout, null);
         this.label_tv = (TextView) layout.findViewById(R.id.motor_label);
         this.label_tv.setTypeface(MainActivity.getTypeface());
         label_tv.setText(label);

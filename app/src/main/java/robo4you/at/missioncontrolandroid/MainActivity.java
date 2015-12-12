@@ -16,6 +16,8 @@ import robo4you.at.missioncontrolandroid.SlidingTabLayout.SlidingTabLayout;
 
 public class MainActivity extends ActionBarActivity{
 
+
+
     Toolbar toolbar;
     ViewPager pager;
     ViewPagerAdapter adapter;
@@ -27,6 +29,7 @@ public class MainActivity extends ActionBarActivity{
     static LinkedList<Sensor> sensors = new LinkedList<>();
     static LinkedList<Controller> controllers = new LinkedList<>();
     Socket socket;
+    Thread networkingThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,18 +64,10 @@ public class MainActivity extends ActionBarActivity{
 
         final String ip = getIntent().getStringExtra("ip");
         final String port = getIntent().getStringExtra("port");
-        Thread connectionThread = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    socket = new Socket(ip, Integer.parseInt(port));
-                } catch (IOException e) {
-                    Log.e("missioncontrol","IOException: "+e.getMessage());
-                }
-            }
-        };
-        //connectionThread.start();
-
+        NetworkThread networkThread = new NetworkThread(ip, Integer.parseInt(port));
+        networkingThread = new Thread(networkThread);
+        networkingThread.start();
+        networkThread.sendData("this is a data string tho");
     }
 
     public static float getDisplay_density(){

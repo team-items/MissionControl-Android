@@ -80,7 +80,7 @@ public class Sensor implements View.OnClickListener {
     }
 
     public LinearLayout generateLayout(View parent){
-        LinearLayout layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.sensors_layout, (LinearLayout) parent);
+        LinearLayout layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.sensors_layout, null);
         layout.setClickable(true);
         int border = (int)MainActivity.pxFromDp(context,5f);
         graph = (GraphView) layout.findViewById(R.id.graph);
