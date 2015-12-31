@@ -40,11 +40,11 @@ public class ConnREQ {
     public String getJSON() {
         StringBuilder json = new StringBuilder();
         json.append("{\n\"ConnREQ\" : {\n");
-        json.append("\"HardwareType\" : \"" + hardwareType + "\",\n");
-        json.append("\"SupportedCrypto\" : \"" + getStringfromList(supportedCrypto) + ",\n");
-        json.append("\"PreferredCrypto\" : \"" + preferredCrypto + "\",\n");
-        json.append("\"SupportedDT\" : \"" + getStringfromList(supportedDT) + ",\n");
-        json.append("\"Password\" : \"" + password + "\"\n");
+        json.append("\t\"HardwareType\" : \"" + hardwareType + "\",\n");
+        json.append("\t\"SupportedCrypto\" : " + getStringfromList(supportedCrypto) + ",\n");
+        json.append("\t\"PreferredCrypto\" : \"" + preferredCrypto + "\",\n");
+        json.append("\t\"SupportedDT\" : "+ getStringfromList(supportedDT) + ",\n");
+        json.append("\t\"Password\" : \"" + password + "\"\n");
         json.append("}\n}");
         return json.toString();
     }

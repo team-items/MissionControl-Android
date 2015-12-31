@@ -7,9 +7,13 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import java.util.TreeMap;
+
+import robo4you.at.missioncontrolandroid.Messages.ConnLAO;
+import robo4you.at.missioncontrolandroid.Messages.ConnREQ;
 import robo4you.at.missioncontrolandroid.SlidingTabLayout.SlidingTabLayout;
 
 public class MainActivity extends ActionBarActivity{
@@ -66,6 +70,8 @@ public class MainActivity extends ActionBarActivity{
         networkThread = new NetworkThread(ip, Integer.parseInt(port));
         networkingThread = new Thread(networkThread);
         networkingThread.start();
+        Log.e("missioncontrol",ConnREQ.getDefaultConnREQ().getJSON());
+        networkThread.sendData(ConnREQ.getDefaultConnREQ().getJSON());
     }
 
     public static float getDisplay_density(){
