@@ -44,7 +44,7 @@ public class LoginScreen extends ActionBarActivity implements View.OnClickListen
         final String port = portField.getText().toString().trim();
         boolean isIP = Pattern.matches(validIpAddressRegex,ip);
         boolean isHostname = Pattern.matches(validHostnameRegex,ip);
-        if (xor(isHostname,isIP) && Pattern.matches(validPortRegex,port)){
+        //if (xor(isHostname,isIP) && Pattern.matches(validPortRegex,port)){
             new Handler().postDelayed(new Runnable() {
                 public void run() {
                     Intent i = new Intent(getApplicationContext(),MainActivity.class);
@@ -53,9 +53,9 @@ public class LoginScreen extends ActionBarActivity implements View.OnClickListen
                     startActivity(i);
                 }
             }, 0);
-        }else{
-            Toast.makeText(getApplicationContext(),"Wrong connection: "+ip+":"+port,Toast.LENGTH_LONG).show();
-        }
+        //}else{
+        //    Toast.makeText(getApplicationContext(),"Wrong connection: "+ip+":"+port,Toast.LENGTH_LONG).show();
+        //}
     }
 
     @Override
