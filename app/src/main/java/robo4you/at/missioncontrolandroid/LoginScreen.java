@@ -16,7 +16,7 @@ import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
 import java.util.regex.Pattern;
 
 public class LoginScreen extends ActionBarActivity implements View.OnClickListener,QRCodeReaderView.OnQRCodeReadListener{
-
+    Connection conn;
 
     private QRCodeReaderView mydecoderview;
 
@@ -32,29 +32,24 @@ public class LoginScreen extends ActionBarActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        String validIpAddressRegex = "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}" +
-                "([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$";
-        String validHostnameRegex = "^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\\\.)*" +
-                "([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])$";
-        String validPortRegex = "^0*(?:6553[0-5]|655[0-2][0-9]|65[0-4][0-9]{2}|6[0-4][0-9]{3}|[1-5]" +
-                "[0-9]{4}|[1-9][0-9]{1,3}|[0-9])$";
+        String validIpAddressRegex = "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}↵\n" +
+                "(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";
+        String validHostnameRegex = "^(?=.{1,255}$)[0-9A-Za-z](?:(?:[0-9A-Za-z]|-){0,61}[0-9A-Za-z])?(?:\\.[0-9A-Za-z](?:(?:[0-9A-Za-z]|-){0,61}[0-9A-Za-z])?)*\\.?$";
+        String validPortRegex = "^([0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$";
         EditText ipField = (EditText)findViewById(R.id.connectionIP);
         EditText portField = (EditText)findViewById(R.id.connectionPort);
         final String ip = ipField.getText().toString().trim();
         final String port = portField.getText().toString().trim();
-        boolean isIP = Pattern.matches(validIpAddressRegex,ip);
-        boolean isHostname = Pattern.matches(validHostnameRegex,ip);
-        if (xor(isHostname,isIP) && Pattern.matches(validPortRegex,port)){
-            new Handler().postDelayed(new Runnable() {
-                public void run() {
-                    Intent i = new Intent(getApplicationContext(),MainActivity.class);
-                    i.putExtra("ip",ip);
-                    i.putExtra("port",port);
-                    startActivity(i);
-                }
-            }, 0);
+        if ((ip.matches(validHostnameRegex) || ip.matches(validIpAddressRegex) && port.matches(validPortRegex))){
+            Toast.makeText(getApplicationContext(),"performing handshake with: "+ip+":"+port,Toast.LENGTH_LONG).show();
+            conn = new Connection(ip, port);
+            conn.start();
+            while(!conn.gotconlao){
+            }
+
+
         }else{
-            Toast.makeText(getApplicationContext(),"Wrong connection: "+ip+":"+port,Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"wrong ip/port: "+ip+":"+port,Toast.LENGTH_LONG).show();
         }
     }
 
