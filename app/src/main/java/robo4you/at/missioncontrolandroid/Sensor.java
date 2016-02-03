@@ -29,25 +29,61 @@ import java.util.Random;
  */
 public class Sensor implements View.OnClickListener {
 
-    boolean isDigital;
     int min, max;
     String label;
     TextView value;
     TextView labelView;
-    LinearLayout sensor_layout;
+    private LinearLayout sensor_layout;
     GraphView graph;
     private boolean visible = true;
     LineGraphSeries<DataPoint> series;
     private int x = 0;
-    final int VALUES_TO_DISPLAY = 50;
+    int values_to_display = 50;
     Handler handler = new Handler();
+    final Context context;
+    boolean displayGraph = true;
 
-    public Sensor(boolean isDigital, int min, int max, String label, final Context context) {
+    public Sensor(int min, int max, String label, final Context context) {
+        this.min = min;
+        this.max = max;
+        this.label = label;
+        this.context = context;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (displayGraph) {
+            if (visible) {
+                graph.setVisibility(View.GONE);
+                visible = false;
+            } else {
+                graph.setVisibility(View.VISIBLE);
+                visible = true;
+            }
+        }
+    }
+
+    public void hideGraph() {
+        graph.setVisibility(View.GONE);
+        visible = false;
+        displayGraph = false;
+    }
+
+    public void addPoint(int value) {
+        series.appendData(new DataPoint(x++, value), true, values_to_display);
+        this.value.setText("" + value);
+    }
+
+    public void setValues_to_display(int values_to_display) {
+        this.values_to_display = values_to_display;
+    }
+
+    public LinearLayout generateLayout(View parent){
         LinearLayout layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.sensors_layout, null);
         layout.setClickable(true);
         int border = (int)MainActivity.pxFromDp(context,5f);
         graph = (GraphView) layout.findViewById(R.id.graph);
-        ((LinearLayout.LayoutParams)graph.getLayoutParams()).setMargins(border, border, border, border);
+        ((LinearLayout.LayoutParams) graph.getLayoutParams()).setMargins(border, border, border, border);
 
         Viewport viewport = graph.getViewport();
         viewport.setYAxisBoundsManual(true);
@@ -67,89 +103,38 @@ public class Sensor implements View.OnClickListener {
         Typeface font = MainActivity.getTypeface();
         value.setTypeface(font);
         labelView.setTypeface(font);
-
-        this.isDigital = isDigital;
-        this.label = label;
         labelView.setText(label);
-        if (isDigital) {
-            this.min = 0;
-            this.max = 1;
-        } else {
-            this.min = min;
-            this.max = max;
-            series = new LineGraphSeries<DataPoint>();
-            series.setColor(context.getResources().getColor(R.color.itemsRed));
-            series.setBackgroundColor(context.getResources().getColor(R.color.backgroundColorGraph));
-            series.setOnDataPointTapListener(new OnDataPointTapListener() {
-                @Override
-                public void onTap(Series series, DataPointInterface dataPoint) {
-                    Toast.makeText(context,""+dataPoint.getY(),Toast.LENGTH_SHORT).show();
-                    Log.e("missioncontrol","X:"+dataPoint.getY());
-                }
-            });
-            graph.addSeries(series);
-            graph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.NONE);
-        }
+        series = new LineGraphSeries<DataPoint>();
+        series.setColor(context.getResources().getColor(R.color.itemsRed));
+        series.setBackgroundColor(context.getResources().getColor(R.color.backgroundColorGraph));
+        series.setOnDataPointTapListener(new OnDataPointTapListener() {
+            @Override
+            public void onTap(Series series, DataPointInterface dataPoint) {
+                Toast.makeText(context, "" + dataPoint.getY(), Toast.LENGTH_SHORT).show();
+                Log.e("missioncontrol", "X:" + dataPoint.getY());
+            }
+        });
+        graph.addSeries(series);
+        graph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.NONE);
+
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.setMargins(border, border, border, border);
         layout.setLayoutParams(layoutParams);
         layout.setOnClickListener(this);
-        if (isDigital) {
-            graph.setVisibility(View.GONE);
-        } else {
-            layout.setOnClickListener(this);
-            //graph.setOnClickListener(this);
-            value.setOnClickListener(this);
-            labelView.setOnClickListener(this);
-        }
-        this.sensor_layout = layout;
-        Thread thread = new Thread(new UpdateGraph());
-        //thread.start();
-    }
+        layout.setOnClickListener(this);
+        //graph.setOnClickListener(this);
+        value.setOnClickListener(this);
+        labelView.setOnClickListener(this);
 
-    public LinearLayout getLayout() {
+        this.sensor_layout = layout;
         return sensor_layout;
     }
-
-    @Override
-    public void onClick(View v) {
-        if (visible) {
-            graph.setVisibility(View.GONE);
-            visible = false;
-        } else {
-            graph.setVisibility(View.VISIBLE);
-            visible = true;
-        }
-    }
-    public void hideGraph(){
-        graph.setVisibility(View.GONE);
-        visible = false;
+    public String getUniqueIdentifier(){
+        return this.label;
     }
 
-    public void addPoint(int value) {
-        series.appendData(new DataPoint(x++, value), true, VALUES_TO_DISPLAY);
-        this.value.setText(""+value);
-    }
-    public class UpdateGraph implements Runnable{
-
-        @Override
-        public void run() {
-
-            for (int i = 0;i<200;i++){
-                handler.post(new Runnable() {
-                    Random r = new Random();
-                    @Override
-                    public void run() {
-                        addPoint(r.nextInt(max));
-                    }
-                });
-                try {
-                    Thread.sleep(50);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+    public View getLayout() {
+        return sensor_layout;
     }
 }

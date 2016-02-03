@@ -47,7 +47,6 @@ public class LoginScreen extends ActionBarActivity implements View.OnClickListen
             i.putExtra("ip", ip);
             i.putExtra("port", port);
             startActivity(i);
-
         }else{
             Toast.makeText(getApplicationContext(),"wrong ip/port: "+ip+":"+port,Toast.LENGTH_LONG).show();
         }

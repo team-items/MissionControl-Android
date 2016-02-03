@@ -1,5 +1,6 @@
 package robo4you.at.missioncontrolandroid;
 
+import android.view.View;
 import android.widget.LinearLayout;
 
 /**
@@ -7,8 +8,7 @@ import android.widget.LinearLayout;
  */
 public abstract class Controller {
 
+    public abstract LinearLayout generateLayout(View parent);
 
-    public abstract LinearLayout getLayout();
 
-    public abstract double getValue();
 }

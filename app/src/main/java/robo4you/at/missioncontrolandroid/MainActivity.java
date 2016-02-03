@@ -8,6 +8,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
+import org.json.JSONException;
+
 import java.io.IOException;
 import java.net.Socket;
 
@@ -56,12 +58,20 @@ public class MainActivity extends ActionBarActivity{
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
 
+
+
         final String ip = getIntent().getStringExtra("ip");
         final String port = getIntent().getStringExtra("port");
 
         conn = new Connection(ip, port);
         conn.start();
         while(!conn.gotconlao) {
+        }
+        ConnLAO connl = new ConnLAO(conn.obj, adapter);
+        try {
+            connl.generateLayout(this);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
 

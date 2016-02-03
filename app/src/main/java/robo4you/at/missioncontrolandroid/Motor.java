@@ -17,7 +17,7 @@ import android.widget.TextView;
  */
 public class Motor extends Controller{
 
-    String label;
+    private String label;
     private double value, max;
     private final double min;
     TextView textView_label, textView_value;
@@ -31,6 +31,11 @@ public class Motor extends Controller{
         this.max = maxValue;
         this.context = context;
         this.value = minValue;
+        this.label = label;
+    }
+
+    @Override
+    public LinearLayout generateLayout(View parent) {
         layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.motor_servo_layout, null);
         textView_label = (TextView) layout.findViewById(R.id.label);
         textView_label.setTextColor(Color.BLACK);
@@ -49,7 +54,6 @@ public class Motor extends Controller{
                 intent.putExtra("min",min);
                 intent.putExtra("max",max);
                 intent.putExtra("value",value);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
         });
@@ -63,7 +67,7 @@ public class Motor extends Controller{
             unit = (max - min) / 100;
         } else {
             unit = (Math.abs(min) + Math.abs(max)) / 100;
-            }
+        }
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -81,27 +85,21 @@ public class Motor extends Controller{
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
-
-        this.label = label;
         go.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //send update message
             }
         });
-    }
-    public LinearLayout getLayout(){
         return layout;
-    }
-
-    @Override
-    public double getValue() {
-        return value;
     }
 
     public void setValue(double value){
         this.value = value;
         Log.e("missioncontrol","change value to: "+value);
+    }
+    public String getUniqueIdentifier(){
+        return this.label;
     }
 
 }

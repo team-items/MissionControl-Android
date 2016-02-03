@@ -2,6 +2,8 @@ package robo4you.at.missioncontrolandroid;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -22,30 +24,27 @@ public class Button extends Controller {
         this.value = value;
         this.context = context;
         this.label = label;
-        generateLayout();
     }
 
-    private void generateLayout() {
+    public LinearLayout generateLayout(View parent) {
         layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.button_layout, null);
         this.label_tv = (TextView) layout.findViewById(R.id.motor_label);
         this.label_tv.setTypeface(MainActivity.getTypeface());
         label_tv.setText(label);
         this.switchWidget = (Switch) layout.findViewById(R.id.switchWidget);
+        return layout;
     }
 
     public Button(String label, final Context context) {
         this.value = 0;
         this.context = context;
         this.label = label;
-        generateLayout();
     }
 
-    @Override
     public LinearLayout getLayout() {
         return layout;
     }
 
-    @Override
     public double getValue() {
         return value;
     }
