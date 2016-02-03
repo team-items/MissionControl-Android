@@ -23,7 +23,7 @@ public class MainActivity extends ActionBarActivity{
     int Numboftabs =2;
     static float display_density;
     static Typeface font;
-    Socket socket;
+    Connection conn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,17 +58,12 @@ public class MainActivity extends ActionBarActivity{
 
         final String ip = getIntent().getStringExtra("ip");
         final String port = getIntent().getStringExtra("port");
-        Thread connectionThread = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    socket = new Socket(ip, Integer.parseInt(port));
-                } catch (IOException e) {
-                    Log.e("missioncontrol","IOException: "+e.getMessage());
-                }
-            }
-        };
-        //connectionThread.start();
+
+        conn = new Connection(ip, port);
+        conn.start();
+        while(!conn.gotconlao) {
+        }
+
 
     }
 

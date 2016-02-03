@@ -42,11 +42,11 @@ public class LoginScreen extends ActionBarActivity implements View.OnClickListen
         final String port = portField.getText().toString().trim();
         if ((ip.matches(validHostnameRegex) || ip.matches(validIpAddressRegex) && port.matches(validPortRegex))){
             Toast.makeText(getApplicationContext(),"performing handshake with: "+ip+":"+port,Toast.LENGTH_LONG).show();
-            conn = new Connection(ip, port);
-            conn.start();
-            while(!conn.gotconlao){
-            }
 
+            Intent i = new Intent(this, MainActivity.class);
+            i.putExtra("ip", ip);
+            i.putExtra("port", port);
+            startActivity(i);
 
         }else{
             Toast.makeText(getApplicationContext(),"wrong ip/port: "+ip+":"+port,Toast.LENGTH_LONG).show();
