@@ -32,32 +32,12 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
         if (position == 0) // if the position is 0 we are returning the First tab
         {
-            sensorsTab.sensors.add(new Sensor(0,10,"Test",main.getApplicationContext()));
-            sensorsTab.sensors.add(new Sensor(0,10,"Test",main.getApplicationContext()));
-            sensorsTab.sensors.add(new Sensor(0,10,"Test",main.getApplicationContext()));
-            sensorsTab.sensors.add(new Sensor(0,10,"Test",main.getApplicationContext()));
-            sensorsTab.sensors.add(new Sensor(0,10,"Test",main.getApplicationContext()));
-            sensorsTab.sensors.add(new Sensor(0,10,"Test",main.getApplicationContext()));
             return sensorsTab;
         }
         else             // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
         {
-
-            motorTab.controllers.add(new Motor(33, 40, "Motor 1", main.getApplicationContext()));
-            motorTab.controllers.add(new Motor(33, 40, "Motor 1", main.getApplicationContext()));
-            motorTab.controllers.add(new Motor(33, 40, "Motor 1", main.getApplicationContext()));
-            motorTab.controllers.add(new Motor(-10, 10, "Motor 1", main.getApplicationContext()));
-            motorTab.controllers.add(new Motor(-10, 10, "Motor 1", main.getApplicationContext()));
-            motorTab.controllers.add(new Motor(-10, 10, "Motor 1", main.getApplicationContext()));
-            motorTab.controllers.add(new Button("My Button 1", main.getApplicationContext()));
-            motorTab.controllers.add(new Button("My Button 1123", main.getApplicationContext()));
-            motorTab.controllers.add(new Button("My Button 1", main.getApplicationContext()));
-            motorTab.controllers.add(new Button("My Button 1", main.getApplicationContext()));
             return motorTab;
-
         }
-
-
     }
 
     // This method return the titles for the Tabs in the Tab Strip
@@ -81,4 +61,11 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         sensorsTab.sensors.add(sensor);
     }
 
+    public void setSensorsTab(Sensors sensorsTab){
+        this.sensorsTab = sensorsTab;
+    }
+
+    public void setMotorTab(Controllers sensorsTab){
+        this.motorTab = sensorsTab;
+    }
 }

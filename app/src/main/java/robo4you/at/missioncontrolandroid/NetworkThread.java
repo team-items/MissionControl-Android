@@ -82,8 +82,8 @@ public class NetworkThread implements Runnable {
     public void sendData(String data){
         synchronized (sendData){
             this.sendData = data;
-            dataToSend = true;
         }
+        dataToSend = true;
     }
     public void kill(){
         this.run = false;

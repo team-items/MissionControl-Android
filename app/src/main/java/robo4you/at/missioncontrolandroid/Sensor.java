@@ -48,7 +48,6 @@ public class Sensor implements View.OnClickListener {
         this.max = max;
         this.label = label;
         this.context = context;
-
     }
 
     @Override

@@ -34,7 +34,6 @@ public class Motor extends Controller{
         this.label = label;
     }
 
-
     @Override
     public LinearLayout generateLayout(View parent) {
         layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.motor_servo_layout, null);

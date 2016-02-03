@@ -13,23 +13,26 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <action android:name="android.intent.action.MAIN" />
+
         <category android:name="android.intent.category.LAUNCHER" />
+
         <activity
             android:name=".LoginScreen"
             android:exported="true"
-            android:label="@string/title_activity_login_screen">
-
-        </activity>
+            android:label="@string/title_activity_login_screen" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/title_activity_main"></activity>
+            android:label="@string/title_activity_main" />
         <activity
             android:name=".NumPicker"
             android:theme="@style/AppTheme.NumberPicker" />
         <activity
             android:name=".ConLAOTest"
-            android:label="@string/title_activity_con_laotest"></activity>
+            android:label="@string/title_activity_con_laotest" />
+        <activity
+            android:name=".Test"
+            android:label="@string/title_activity_test" />
     </application>
 
 </manifest>
