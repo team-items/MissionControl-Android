@@ -48,8 +48,6 @@ public class Sensor implements View.OnClickListener {
         this.max = max;
         this.label = label;
         this.context = context;
-        Thread t = new Thread(new UpdateGraph());
-        t.start();
     }
 
     @Override
@@ -138,27 +136,5 @@ public class Sensor implements View.OnClickListener {
 
     public View getLayout() {
         return sensor_layout;
-    }
-
-    public class UpdateGraph implements Runnable{
-
-        @Override
-        public void run() {
-
-            for (int i = 0;i<200;i++){
-                handler.post(new Runnable() {
-                    Random r = new Random();
-                    @Override
-                    public void run() {
-                        addPoint(r.nextInt(max));
-                    }
-                });
-                try {
-                    Thread.sleep(50);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
     }
 }

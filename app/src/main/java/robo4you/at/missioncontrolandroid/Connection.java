@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Iterator;
 import java.util.logging.Handler;
 
 /**
@@ -18,7 +19,7 @@ public class Connection extends Thread {
     PrintWriter out;
     BufferedReader in;
     android.os.Handler handler;
-
+    MainActivity activity;
     boolean gotdata = false;
     boolean gotconlao = false;
     String ip;
@@ -26,12 +27,12 @@ public class Connection extends Thread {
     int segmentsize;
 
     JSONObject obj;
-    JSONObject data;
 
-    public Connection(String ip, String port, android.os.Handler handler) {
+    public Connection(String ip, String port, android.os.Handler handler, MainActivity activity) {
         this.ip = ip;
         this.port = Integer.parseInt(port);
         this.handler = handler;
+        this.activity = activity;
     }
 
 
@@ -102,13 +103,48 @@ public class Connection extends Thread {
                         valid = false;
                     }
                 }
-                data = new JSONObject(msg);
-                gotdata = true;
+                JSONObject data = new JSONObject(msg).getJSONObject("Data");
+                Iterator<String> iterator = data.keys();
+                while (iterator.hasNext()){
+                    String sensorName = iterator.next();
+                    final Object value = data.get(sensorName);
+                    Sensor s = null;
+                    for (Sensor sensor:activity.sensors){
+                        if (sensor.getUniqueIdentifier().equals(sensorName)){
+                            s=sensor;
+                            break;
+                        }
+                    }
+
+                    if (value instanceof Integer){
+                        handler.post(new UpdateRunnable(s,(int)value));
+                    }else if(value instanceof String && (value.equals("false")||value.equals("true"))){
+                        if (value.equals("true")){
+                            handler.post(new UpdateRunnable(s,1));
+                        }else if (value.equals("false")){
+                            handler.post(new UpdateRunnable(s,0));
+                        }
+                    }
+                }
             }
 
 
         } catch (Exception e) {
             System.err.println(e);
         }
+    }
+}
+class UpdateRunnable implements Runnable{
+
+    private Sensor s;
+    private int value;
+
+    public UpdateRunnable(Sensor s, int value){
+        this.s = s;
+        this.value = value;
+    }
+    @Override
+    public void run() {
+        s.addPoint(value);
     }
 }

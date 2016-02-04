@@ -67,7 +67,7 @@ public class MainActivity extends ActionBarActivity{
         final String ip = getIntent().getStringExtra("ip");
         final String port = getIntent().getStringExtra("port");
 
-        conn = new Connection(ip, port, new Handler());
+        conn = new Connection(ip, port, new Handler(),this);
         conn.start();
         while(!conn.gotconlao) {
             Thread.yield();
@@ -80,46 +80,6 @@ public class MainActivity extends ActionBarActivity{
         }
         Log.e("Anzahl der Sensoren: ", "" + sensors.size());
 
-        while(!conn.gotdata) {
-            Thread.yield();
-        }
-
-        try {
-            Iterator<String> sensordata = conn.data.getJSONObject("Data").keys();
-
-            while(sensordata.hasNext()){
-                String actsensor = sensordata.next();
-                Object ob = conn.data.getJSONObject("Data").get(actsensor);
-                if(ob instanceof Integer){
-                    int value = (Integer)ob;
-                    for(Sensor s: sensors){
-                        if (s.label.equals(actsensor)){
-                            s.addPoint(value);
-                        }
-                    }
-                }else if (ob instanceof String){
-                    String val = (String)ob;
-                    if(val.equals("true")){
-                        for(Sensor s: sensors){
-                            if (s.label.equals(actsensor)){
-                                s.addPoint(1);
-                            }
-                        }
-                    }else{
-                        for(Sensor s: sensors){
-                            if (s.label.equals(actsensor)){
-                                s.addPoint(0);
-                            }
-                        }
-                    }
-                }
-
-            }
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
     }
 
