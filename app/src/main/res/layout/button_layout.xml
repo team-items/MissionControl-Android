@@ -20,16 +20,18 @@
             android:layout_weight="10"
             android:paddingStart="20dp" />
 
-        <Switch
+        <Button
+            style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:textOn="On"
-            android:textOff="Off"
-            android:id="@+id/switchWidget"
-            android:gravity="right"
-            android:layout_weight="2"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/round_edges" />
+            android:layout_height="wrap_content"
+            android:id="@+id/button"
+            android:layout_weight="0.1"
+            android:text="1"
+            android:layout_marginRight="20dp"
+            android:background="@color/itemsRed"
+            android:elegantTextHeight="false"
+            android:textColor="#ffff"
+            android:layout_marginBottom="10dp" />
 
     </LinearLayout>
 
@@ -40,4 +42,6 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:background="@color/itemsRed" />
+
+
 </LinearLayout>
