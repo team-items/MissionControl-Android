@@ -25,7 +25,7 @@ public class Sensors extends Fragment{
         layout.setOrientation(LinearLayout.VERTICAL);
         scrollView.setBackgroundColor(getResources().getColor(R.color.backgroundColorGraph));
         for (Sensor sensor:this.sensors){
-            layout.addView(sensor.getLayout());
+            layout.addView(sensor.generateLayout(layout));
         }
         scrollView.addView(layout);
         return scrollView;

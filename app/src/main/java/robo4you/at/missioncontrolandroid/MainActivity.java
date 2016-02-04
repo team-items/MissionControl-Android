@@ -66,6 +66,7 @@ public class MainActivity extends ActionBarActivity{
         conn = new Connection(ip, port);
         conn.start();
         while(!conn.gotconlao) {
+            Thread.yield();
         }
         ConnLAO connl = new ConnLAO(conn.obj, adapter);
         try {

@@ -22,8 +22,10 @@ public class ConnLAO {
 
     public ConnLAO(JSONObject connLAO, ViewPagerAdapter viewPagerAdapter) {
         try {
-            this.information = connLAO.getJSONObject("Infromation");
-            this.controller = connLAO.getJSONObject("Controller");
+            Log.e("connLAO",connLAO.toString());
+            this.information = connLAO.getJSONObject("ConnLAO").getJSONObject("Information");
+            this.controller = connLAO.getJSONObject("ConnLAO").getJSONObject("Controller");
+            Log.e("missioncontrol","test");
             this.viewPageAdapter = viewPagerAdapter;
         } catch (JSONException e) {
             e.printStackTrace();

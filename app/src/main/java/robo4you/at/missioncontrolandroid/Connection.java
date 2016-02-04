@@ -1,5 +1,7 @@
 package robo4you.at.missioncontrolandroid;
 
+import android.util.Log;
+
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -50,6 +52,7 @@ public class Connection extends Thread {
                     valid = false;
                 }
             }
+
             obj = new JSONObject(msg);
 
             try {
@@ -68,6 +71,7 @@ public class Connection extends Thread {
                         valid = false;
                     }
                 }
+                Log.e("connLAO",msg);
                 obj = new JSONObject(msg);
                 gotconlao = true;
                 //step 4
