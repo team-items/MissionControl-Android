@@ -11,6 +11,7 @@ import android.util.Log;
 
 import org.json.JSONException;
 import java.util.ArrayList;
+import java.util.TreeMap;
 
 import robo4you.at.missioncontrolandroid.SlidingTabLayout.SlidingTabLayout;
 
@@ -26,6 +27,7 @@ public class MainActivity extends ActionBarActivity{
     static Typeface font;
     Connection conn;
     ArrayList<Sensor> sensors;
+    TreeMap<String, Sensor> sensorTreeMap = new TreeMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +73,9 @@ public class MainActivity extends ActionBarActivity{
         ConnLAO connl = new ConnLAO(conn.obj, adapter);
         try {
             sensors = (ArrayList<Sensor>)connl.generateLayout(this)[1];
+            for (Sensor s:sensors){
+                sensorTreeMap.put(s.getUniqueIdentifier(),s);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }

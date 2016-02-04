@@ -20,7 +20,6 @@ public class Connection extends Thread {
     BufferedReader in;
     android.os.Handler handler;
     MainActivity activity;
-    boolean gotdata = false;
     boolean gotconlao = false;
     String ip;
     int port;
@@ -103,13 +102,8 @@ public class Connection extends Thread {
                 while (iterator.hasNext()){
                     String sensorName = iterator.next();
                     final Object value = data.get(sensorName);
-                    Sensor s = null;
-                    for (Sensor sensor:activity.sensors){
-                        if (sensor.getUniqueIdentifier().equals(sensorName)){
-                            s=sensor;
-                            break;
-                        }
-                    }
+                    Sensor s = activity.sensorTreeMap.get(sensorName);
+
                     if (value instanceof Integer){
                         handler.post(new UpdateRunnable(s,(int)value));
                     }else if(value instanceof String && (value.equals("false")||value.equals("true"))){
@@ -120,7 +114,7 @@ public class Connection extends Thread {
                         }
                     }
                 }
-                Log.e("time:",""+(System.currentTimeMillis()-start));
+                Log.e("time",""+(System.currentTimeMillis()-start));
             }
             in.close();
             out.close();
