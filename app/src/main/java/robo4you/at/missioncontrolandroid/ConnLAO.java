@@ -33,7 +33,7 @@ public class ConnLAO {
 
     }
 
-    public LinearLayout generateLayout(Context context) throws JSONException {
+    public Object[] generateLayout(Context context) throws JSONException {
         Controllers controllers = new Controllers();
         Sensors sensors = new Sensors();
         LinearLayout layout = new LinearLayout(context);
@@ -46,10 +46,13 @@ public class ConnLAO {
             String name = iterator.next();
 
             JSONObject obj = information.getJSONObject(name);
-            if (obj.has("MinBound")) {
-                sensor = new Sensor((int) obj.getDouble("MinBound"),
-                        (int) obj.getDouble("MaxBound"), name, context);
-
+            if (obj.has("DataType")) {
+                if (obj.has("MinBound")){
+                    sensor = new Sensor((int) obj.getDouble("MinBound"),
+                            (int) obj.getDouble("MaxBound"), name, context);
+                }else{
+                    sensor = new Sensor(0,1, name, context);
+                }
             } else {
                 Iterator<String> subSensors = information.getJSONObject(name).keys();
                 while (subSensors.hasNext()) {
@@ -62,14 +65,16 @@ public class ConnLAO {
                         sensor = new Sensor((int) jsonObject.getDouble("MinBound"),
                                 (int) jsonObject.getDouble("MaxBound"), sensorName, context);
 
+                    }else{
+                        sensor = new Sensor(0,1, sensorName, context);
                     }
                     if (sensor != null) {
                         layout.addView(sensor.generateLayout(sensors.getView()));
                         LinearLayout divider = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.divider, null);
-                        if (!obj.has("Graph")) {
+                        if (!jsonObject.has("Graph")) {
                             sensor.hideGraph();
                         }else{
-                            int numbers_to_display = obj.getInt("Graph");
+                            int numbers_to_display = jsonObject.getInt("Graph");
                             sensor.setValues_to_display(numbers_to_display);
                         }
 
@@ -157,7 +162,7 @@ public class ConnLAO {
         Log.e("viewpage",""+ (viewPageAdapter == null));
         viewPageAdapter.setMotorTab(controllers);
         viewPageAdapter.setSensorsTab(sensors);
-        return layout;
+        return new Object[]{layout, sensors.sensors};
     }
 }
 

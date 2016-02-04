@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.logging.Handler;
 
 /**
  * Created by Florian on 01.02.2016.
@@ -16,18 +17,23 @@ public class Connection extends Thread {
     Socket socket;
     PrintWriter out;
     BufferedReader in;
+    android.os.Handler handler;
 
+    boolean gotdata = false;
     boolean gotconlao = false;
     String ip;
     int port;
     int segmentsize;
 
     JSONObject obj;
+    JSONObject data;
 
-    public Connection(String ip, String port) {
+    public Connection(String ip, String port, android.os.Handler handler) {
         this.ip = ip;
         this.port = Integer.parseInt(port);
+        this.handler = handler;
     }
+
 
     public void run() {
         String msg = "";
@@ -81,6 +87,25 @@ public class Connection extends Thread {
             } catch (Exception e) {
                 System.err.println(e);
             }
+
+            //getting datas
+
+            while(true){
+                valid = false;
+                msg = "";
+                while(!valid){
+                    msg += ((char)in.read());
+                    try{
+                        new JSONObject(msg);
+                        valid = true;
+                    }catch(Exception e){
+                        valid = false;
+                    }
+                }
+                data = new JSONObject(msg);
+                gotdata = true;
+            }
+
 
         } catch (Exception e) {
             System.err.println(e);

@@ -3,6 +3,7 @@ package robo4you.at.missioncontrolandroid;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,6 +13,8 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import robo4you.at.missioncontrolandroid.SlidingTabLayout.SlidingTabLayout;
 
@@ -26,6 +29,7 @@ public class MainActivity extends ActionBarActivity{
     static float display_density;
     static Typeface font;
     Connection conn;
+    ArrayList<Sensor> sensors;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,18 +67,59 @@ public class MainActivity extends ActionBarActivity{
         final String ip = getIntent().getStringExtra("ip");
         final String port = getIntent().getStringExtra("port");
 
-        conn = new Connection(ip, port);
+        conn = new Connection(ip, port, new Handler());
         conn.start();
         while(!conn.gotconlao) {
             Thread.yield();
         }
         ConnLAO connl = new ConnLAO(conn.obj, adapter);
         try {
-            connl.generateLayout(this);
+            sensors = (ArrayList<Sensor>)connl.generateLayout(this)[1];
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        Log.e("Anzahl der Sensoren: ", "" + sensors.size());
 
+        while(!conn.gotdata) {
+            Thread.yield();
+        }
+
+        try {
+            Iterator<String> sensordata = conn.data.getJSONObject("Data").keys();
+
+            while(sensordata.hasNext()){
+                String actsensor = sensordata.next();
+                Object ob = conn.data.getJSONObject("Data").get(actsensor);
+                if(ob instanceof Integer){
+                    int value = (Integer)ob;
+                    for(Sensor s: sensors){
+                        if (s.label.equals(actsensor)){
+                            s.addPoint(value);
+                        }
+                    }
+                }else if (ob instanceof String){
+                    String val = (String)ob;
+                    if(val.equals("true")){
+                        for(Sensor s: sensors){
+                            if (s.label.equals(actsensor)){
+                                s.addPoint(1);
+                            }
+                        }
+                    }else{
+                        for(Sensor s: sensors){
+                            if (s.label.equals(actsensor)){
+                                s.addPoint(0);
+                            }
+                        }
+                    }
+                }
+
+            }
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
     }
 
