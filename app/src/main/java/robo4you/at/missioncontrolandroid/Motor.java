@@ -25,13 +25,19 @@ public class Motor extends Controller{
     Button go;
     LinearLayout layout;
     final Context context;
+    boolean isslider;
 
-    public Motor(final double minValue, final double maxValue, final String label, final Context context) {
+    public Motor(final double minValue, final double maxValue, final String label, final Context context, boolean isslider) {
         this.min = minValue;
         this.max = maxValue;
         this.context = context;
         this.value = minValue;
         this.label = label;
+        this.isslider = isslider;
+    }
+
+    public void hideButton(){
+        go.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -91,6 +97,11 @@ public class Motor extends Controller{
                 //send update message
             }
         });
+
+        if(isslider){
+            hideButton();
+        }
+
         return layout;
     }
 

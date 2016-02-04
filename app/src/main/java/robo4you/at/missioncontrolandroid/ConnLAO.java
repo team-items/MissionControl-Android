@@ -113,11 +113,9 @@ public class ConnLAO {
                 if (controlObj.get("ControlType").toString().equals("Button")) {
                     control = new Button(controlName, context);
                 } else if (controlObj.get("ControlType").toString().equals("Slider")) {
-                    control = new Motor((int) controlObj.getDouble("MinBound"),
-                            (int) controlObj.getDouble("MaxBound"),
-                            controlName,
-                            context);
+                    control = new Motor((int) controlObj.getDouble("MinBound"), (int) controlObj.getDouble("MaxBound"), controlName, context, true);
                 }
+
             } else {
                 Iterator<String> subIterator = controlObj.keys();
                 while (subIterator.hasNext()) {
@@ -125,12 +123,12 @@ public class ConnLAO {
                     JSONObject jsonObject = controller.getJSONObject(controlName).getJSONObject(sensorName);
                     if (jsonObject.has("ControlType")) {
                         if (jsonObject.get("ControlType").toString().equals("Button")) {
-                            control = new Button(sensorName, context);
+                            control = null;
                         } else if (jsonObject.get("ControlType").toString().equals("Slider")) {
                             control = new Motor((int) jsonObject.getDouble("MinBound"),
                                     (int) jsonObject.getDouble("MaxBound"),
                                     sensorName,
-                                    context);
+                                    context, false);
                         }
                     }
                     if (control != null) {
