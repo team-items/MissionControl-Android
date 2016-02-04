@@ -10,11 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import org.json.JSONException;
-
-import java.io.IOException;
-import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import robo4you.at.missioncontrolandroid.SlidingTabLayout.SlidingTabLayout;
 

@@ -25,6 +25,7 @@ public class Connection extends Thread {
     String ip;
     int port;
     int segmentsize;
+    boolean run = true;
 
     JSONObject obj;
 
@@ -91,17 +92,11 @@ public class Connection extends Thread {
 
             //getting datas
 
-            while(true){
-                valid = false;
+            while(run){
+                Long start = System.currentTimeMillis();
                 msg = "";
-                while(!valid){
+                while(!isFullMessage(msg)){
                     msg += ((char)in.read());
-                    try{
-                        new JSONObject(msg);
-                        valid = true;
-                    }catch(Exception e){
-                        valid = false;
-                    }
                 }
                 JSONObject data = new JSONObject(msg).getJSONObject("Data");
                 Iterator<String> iterator = data.keys();
@@ -115,7 +110,6 @@ public class Connection extends Thread {
                             break;
                         }
                     }
-
                     if (value instanceof Integer){
                         handler.post(new UpdateRunnable(s,(int)value));
                     }else if(value instanceof String && (value.equals("false")||value.equals("true"))){
@@ -126,12 +120,23 @@ public class Connection extends Thread {
                         }
                     }
                 }
+                Log.e("time:",""+(System.currentTimeMillis()-start));
             }
-
-
+            in.close();
+            out.close();
+            socket.close();
         } catch (Exception e) {
             System.err.println(e);
         }
+    }
+    public static boolean isFullMessage(String message){
+        int open = 0;
+        int close = 0;
+        for (char c:message.toCharArray()){
+            if (c=='{')open++;
+            else if (c=='}')close++;
+        }
+        return open==close&&open!=0;
     }
 }
 class UpdateRunnable implements Runnable{
