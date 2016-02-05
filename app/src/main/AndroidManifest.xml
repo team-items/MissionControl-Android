@@ -24,7 +24,8 @@
         </activity>
         <activity
             android:name=".NumPicker"
-            android:theme="@style/AppTheme.NumberPicker"></activity>
+            android:theme="@style/AppTheme.NumberPicker">
+        </activity>
     </application>
 
 </manifest>
