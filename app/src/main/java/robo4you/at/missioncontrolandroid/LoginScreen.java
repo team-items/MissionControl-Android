@@ -1,9 +1,12 @@
 package robo4you.at.missioncontrolandroid;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
@@ -23,11 +26,21 @@ public class LoginScreen extends ActionBarActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        createShortCut();
         setContentView(R.layout.activity_login_screen);
         Button connect = (Button)findViewById(R.id.connectbtn);
         connect.setOnClickListener(this);
         //mydecoderview = (QRCodeReaderView)findViewById(R.id.qrdecoderview);
         //mydecoderview.setOnQRCodeReadListener(this);
+    }
+    public void createShortCut(){
+        Intent shortcutintent = new Intent("com.android.launcher.action.INSTALL_SHORTCUT");
+        shortcutintent.putExtra("duplicate", false);
+        shortcutintent.putExtra(Intent.EXTRA_SHORTCUT_NAME, "MissionControl");
+        Parcelable icon = Intent.ShortcutIconResource.fromContext(getApplicationContext(), R.drawable.icon);
+        shortcutintent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, icon);
+        shortcutintent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, new Intent(getApplicationContext(), LoginScreen.class));
+        sendBroadcast(shortcutintent);
     }
 
     @Override

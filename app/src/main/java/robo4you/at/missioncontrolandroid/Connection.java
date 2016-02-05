@@ -1,10 +1,12 @@
 package robo4you.at.missioncontrolandroid;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -34,6 +36,7 @@ public class Connection extends Thread {
         this.handler = handler;
         this.activity = activity;
     }
+
 
 
     public void run() {
@@ -112,15 +115,26 @@ public class Connection extends Thread {
                         }else if (value.equals("false")){
                             handler.post(new UpdateRunnable(s,0));
                         }
+                    }else if (value instanceof Double){
+                        handler.post(new UpdateRunnable(s,(double)value));
                     }
                 }
-                Log.e("time",""+(System.currentTimeMillis()-start));
+                //Log.e("time",""+(System.currentTimeMillis()-start));
             }
-            in.close();
-            out.close();
-            socket.close();
         } catch (Exception e) {
             System.err.println(e);
+        }finally {
+            if (in!=null) try {
+                in.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (out!=null)out.close();
+            if (socket!=null) try {
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
     public static boolean isFullMessage(String message){
@@ -132,13 +146,16 @@ public class Connection extends Thread {
         }
         return open==close&&open!=0;
     }
+    public void sendMessage(String message){
+        out.println(message);
+    }
 }
-class UpdateRunnable implements Runnable{
+class UpdateRunnable<T extends Number> implements Runnable{
 
     private Sensor s;
-    private int value;
+    private T value;
 
-    public UpdateRunnable(Sensor s, int value){
+    public UpdateRunnable(Sensor s, T value){
         this.s = s;
         this.value = value;
     }

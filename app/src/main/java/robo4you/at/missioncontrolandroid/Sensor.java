@@ -3,16 +3,13 @@ package robo4you.at.missioncontrolandroid;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.Viewport;
@@ -22,14 +19,12 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import com.jjoe64.graphview.series.OnDataPointTapListener;
 import com.jjoe64.graphview.series.Series;
 
-import java.util.Random;
-
 /**
  * Created by Raphael on 09.10.2015.
  */
-public class Sensor implements View.OnClickListener {
+public class Sensor<T extends Number> implements View.OnClickListener {
 
-    int min, max;
+    T min, max;
     String label;
     TextView value;
     TextView labelView;
@@ -39,11 +34,11 @@ public class Sensor implements View.OnClickListener {
     LineGraphSeries<DataPoint> series;
     private int x = 0;
     int values_to_display = 50;
-    Handler handler = new Handler();
     final Context context;
     boolean displayGraph = true;
+    boolean scrollToEnd = true;
 
-    public Sensor(int min, int max, String label, final Context context) {
+    public Sensor(T min, T max, String label, final Context context) {
         this.min = min;
         this.max = max;
         this.label = label;
@@ -69,8 +64,12 @@ public class Sensor implements View.OnClickListener {
         displayGraph = false;
     }
 
-    public void addPoint(int value) {
-        series.appendData(new DataPoint(x++, value), true, values_to_display);
+    public void addPoint(T value) {
+        if (value instanceof Double){
+            series.appendData(new DataPoint(x++, (Double)value), scrollToEnd, values_to_display);
+        }else if (value instanceof Integer){
+            series.appendData(new DataPoint(x++, (Integer)value), scrollToEnd, values_to_display);
+        }
         this.value.setText("" + value);
     }
 
@@ -87,8 +86,14 @@ public class Sensor implements View.OnClickListener {
 
         Viewport viewport = graph.getViewport();
         viewport.setYAxisBoundsManual(true);
-        viewport.setMinY(min);
-        viewport.setMaxY(max);
+        if (min instanceof Integer){
+            viewport.setMinY((Integer)min);
+            viewport.setMaxY((Integer)max);
+        }else if (min instanceof Double){
+            viewport.setMinY((Double)min);
+            viewport.setMaxY((Double)max);
+        }
+
         viewport.setXAxisBoundsManual(false);
         viewport.setScrollable(true);
 

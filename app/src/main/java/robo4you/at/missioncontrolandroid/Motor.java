@@ -94,7 +94,7 @@ public class Motor extends Controller{
         go.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //send update message
+                
             }
         });
 

@@ -10,6 +10,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import org.json.JSONException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
@@ -28,6 +30,7 @@ public class MainActivity extends ActionBarActivity{
     Connection conn;
     ArrayList<Sensor> sensors;
     TreeMap<String, Sensor> sensorTreeMap = new TreeMap<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +62,6 @@ public class MainActivity extends ActionBarActivity{
 
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
-
-
 
         final String ip = getIntent().getStringExtra("ip");
         final String port = getIntent().getStringExtra("port");
@@ -98,5 +99,24 @@ public class MainActivity extends ActionBarActivity{
         return dp * context.getResources().getDisplayMetrics().density;
     }
 
-
+    @Override
+    protected void onDestroy() {
+        Log.e("onDestroy","executed");
+        if (conn.in!=null) try {
+            conn.in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (conn.out!=null){
+            conn.out.close();
+        }
+        if (conn.socket!=null){
+            try {
+                conn.socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        super.onDestroy();
+    }
 }
