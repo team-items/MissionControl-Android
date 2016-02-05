@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -67,7 +68,7 @@ public class Connection extends Thread {
 
             try {
                 segmentsize = obj.getJSONObject("ConnACK").getInt("SegmentSize");
-
+                Log.e("segmentsize",""+segmentsize);
                 //step 3
 
                 msg = "";
@@ -93,36 +94,43 @@ public class Connection extends Thread {
             }
 
             //getting datas
-
+            InputStream inputStream = socket.getInputStream();
+            Long start;
             while(run){
-                Long start = System.currentTimeMillis();
-                msg = "";
-                while(!isFullMessage(msg)){
-                    msg += ((char)in.read());
-                }
-                JSONObject data = new JSONObject(msg).getJSONObject("Data");
-                Iterator<String> iterator = data.keys();
-                while (iterator.hasNext()){
-                    String sensorName = iterator.next();
-                    final Object value = data.get(sensorName);
-                    Sensor s = activity.sensorTreeMap.get(sensorName);
-
-                    if (value instanceof Integer){
-                        handler.post(new UpdateRunnable(s,(int)value));
-                    }else if(value instanceof String && (value.equals("false")||value.equals("true"))){
-                        if (value.equals("true")){
-                            handler.post(new UpdateRunnable(s,1));
-                        }else if (value.equals("false")){
-                            handler.post(new UpdateRunnable(s,0));
+                if (inputStream.available()>0) {
+                    start = System.currentTimeMillis();
+                    byte[] updateMsg = new byte[segmentsize];
+                    int bytesRead = inputStream.read(updateMsg);
+                    if (bytesRead>8){
+                        msg = new String(updateMsg, "UTF-8").trim();
+                        if (msg.length()>0) {
+                            JSONObject data = new JSONObject(msg).getJSONObject("Data");
+                            Iterator<String> iterator = data.keys();
+                            while (iterator.hasNext()) {
+                                String sensorName = iterator.next();
+                                Log.e("sensor", sensorName);
+                                Object value = data.get(sensorName);
+                                Sensor s = activity.sensorTreeMap.get(sensorName);
+                                if (value instanceof Integer) {
+                                    handler.post(new UpdateRunnable(s, (int) value));
+                                } else if (value instanceof String && (value.equals("false") || value.equals("true"))) {
+                                    if (value.equals("true")) {
+                                        handler.post(new UpdateRunnable(s, 1));
+                                    } else if (value.equals("false")) {
+                                        handler.post(new UpdateRunnable(s, 0));
+                                    }
+                                } else if (value instanceof Double) {
+                                    handler.post(new UpdateRunnable(s, (double) value));
+                                }
+                            }
+                            Log.e("time", "" + (System.currentTimeMillis() - start));
                         }
-                    }else if (value instanceof Double){
-                        handler.post(new UpdateRunnable(s,(double)value));
                     }
                 }
-                //Log.e("time",""+(System.currentTimeMillis()-start));
             }
         } catch (Exception e) {
-            System.err.println(e);
+            Log.e("error",e.toString());
+            e.printStackTrace(System.out);
         }finally {
             if (in!=null) try {
                 in.close();
@@ -133,7 +141,7 @@ public class Connection extends Thread {
             if (socket!=null) try {
                 socket.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e("error", e.toString());
             }
         }
     }
