@@ -3,6 +3,7 @@ package robo4you.at.missioncontrolandroid;
 import android.util.Log;
 import android.widget.Toast;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -27,7 +28,7 @@ public class Connection extends Thread {
     String ip;
     int port;
     int segmentsize;
-    boolean run = true;
+    private boolean run = true;
 
     JSONObject obj;
 
@@ -37,7 +38,9 @@ public class Connection extends Thread {
         this.handler = handler;
         this.activity = activity;
     }
-
+    public void kill(){
+        run = false;
+    }
 
 
     public void run() {
@@ -98,12 +101,14 @@ public class Connection extends Thread {
             Long start;
             while(run){
                 if (inputStream.available()>0) {
-                    start = System.currentTimeMillis();
                     byte[] updateMsg = new byte[segmentsize];
+                    start = System.currentTimeMillis();
                     int bytesRead = inputStream.read(updateMsg);
+                    Log.e("bytes",""+bytesRead);
                     if (bytesRead>8){
                         msg = new String(updateMsg, "UTF-8").trim();
-                        if (msg.length()>0) {
+                        if (msg.length()>0 && isFullMessage(msg)) {
+                            Log.e("message",msg);
                             JSONObject data = new JSONObject(msg).getJSONObject("Data");
                             Iterator<String> iterator = data.keys();
                             while (iterator.hasNext()) {
@@ -126,6 +131,8 @@ public class Connection extends Thread {
                             Log.e("time", "" + (System.currentTimeMillis() - start));
                         }
                     }
+                }else{
+                    Thread.sleep(10);
                 }
             }
         } catch (Exception e) {
@@ -146,13 +153,24 @@ public class Connection extends Thread {
         }
     }
     public static boolean isFullMessage(String message){
+
         int open = 0;
         int close = 0;
+
         for (char c:message.toCharArray()){
             if (c=='{')open++;
             else if (c=='}')close++;
         }
-        return open==close&&open!=0;
+        if (open==close&&open!=0){
+            try {
+                new JSONObject(message);
+                return true;
+            } catch (JSONException e) {
+                Log.e("error","failed to parse");
+                return false;
+            }
+        }
+        return false;
     }
     public void sendMessage(String message){
         out.println(message);

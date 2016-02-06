@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="robo4you.at.missioncontrolandroid.MainActivity"
+            android:name=".MainActivity"
             android:exported="true"
             android:label="@string/title_activity_main" >
         </activity>

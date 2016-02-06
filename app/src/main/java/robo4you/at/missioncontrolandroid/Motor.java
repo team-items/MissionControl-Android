@@ -26,6 +26,7 @@ public class Motor extends Controller{
     LinearLayout layout;
     final Context context;
     boolean isslider;
+    private final int STEPS = 100;
 
     public Motor(final double minValue, final double maxValue, final String label, final Context context, boolean isslider) {
         this.min = minValue;
@@ -70,9 +71,9 @@ public class Motor extends Controller{
         seekBar.getThumb().setColorFilter(context.getResources().getColor(R.color.itemsRed), PorterDuff.Mode.SRC_IN);
         final double unit;
         if (min >= 0) {
-            unit = (max - min) / 100;
+            unit = (max - min) / STEPS;
         } else {
-            unit = (Math.abs(min) + Math.abs(max)) / 100;
+            unit = (Math.abs(min) + Math.abs(max)) / STEPS;
         }
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override

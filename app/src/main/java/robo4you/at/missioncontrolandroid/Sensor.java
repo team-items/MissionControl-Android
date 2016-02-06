@@ -19,6 +19,9 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import com.jjoe64.graphview.series.OnDataPointTapListener;
 import com.jjoe64.graphview.series.Series;
 
+import java.util.ArrayList;
+import java.util.Queue;
+
 /**
  * Created by Raphael on 09.10.2015.
  */
@@ -28,6 +31,7 @@ public class Sensor<T extends Number> implements View.OnClickListener {
     String label;
     TextView value;
     TextView labelView;
+    TextView pause;
     private LinearLayout sensor_layout;
     GraphView graph;
     private boolean visible = true;
@@ -36,7 +40,7 @@ public class Sensor<T extends Number> implements View.OnClickListener {
     int values_to_display = 50;
     final Context context;
     boolean displayGraph = true;
-    boolean scrollToEnd = true;
+    private boolean isPaused = false;
 
     public Sensor(T min, T max, String label, final Context context) {
         this.min = min;
@@ -65,12 +69,14 @@ public class Sensor<T extends Number> implements View.OnClickListener {
     }
 
     public void addPoint(T value) {
-        if (value instanceof Double){
-            series.appendData(new DataPoint(x++, (Double)value), scrollToEnd, values_to_display);
-        }else if (value instanceof Integer){
-            series.appendData(new DataPoint(x++, (Integer)value), scrollToEnd, values_to_display);
+        if (!isPaused){
+            if (value instanceof Double) {
+                series.appendData(new DataPoint(x++, (Double) value), true, values_to_display);
+            } else if (value instanceof Integer) {
+                series.appendData(new DataPoint(x++, (Integer) value), true, values_to_display);
+            }
+            this.value.setText("" + value);
         }
-        this.value.setText("" + value);
     }
 
     public void setValues_to_display(int values_to_display) {
@@ -84,7 +90,7 @@ public class Sensor<T extends Number> implements View.OnClickListener {
         graph = (GraphView) layout.findViewById(R.id.graph);
         ((LinearLayout.LayoutParams) graph.getLayoutParams()).setMargins(border, border, border, border);
 
-        Viewport viewport = graph.getViewport();
+        final Viewport viewport = graph.getViewport();
         viewport.setYAxisBoundsManual(true);
         if (min instanceof Integer){
             viewport.setMinY((Integer)min);
@@ -98,6 +104,7 @@ public class Sensor<T extends Number> implements View.OnClickListener {
         viewport.setScrollable(true);
 
         GridLabelRenderer labelRenderer = graph.getGridLabelRenderer();
+
         labelRenderer.setGridColor(Color.BLACK);
         labelRenderer.setVerticalLabelsColor(Color.BLACK);
         labelRenderer.setHorizontalLabelsColor(Color.TRANSPARENT);
@@ -105,10 +112,23 @@ public class Sensor<T extends Number> implements View.OnClickListener {
 
         value = (TextView) layout.findViewById(R.id.sensor_value);
         labelView = (TextView) layout.findViewById(R.id.sensor_name);
+        pause = (TextView) layout.findViewById(R.id.pauseResume);
+        pause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               isPaused = !isPaused;
+               if (isPaused){
+                   pause.setText("Resume");
+               }else{
+                   pause.setText("Pause");
+               }
+            }
+        });
         Typeface font = MainActivity.getTypeface();
         value.setTypeface(font);
         labelView.setTypeface(font);
         labelView.setText(label);
+        pause.setTypeface(font);
         series = new LineGraphSeries<DataPoint>();
         series.setColor(context.getResources().getColor(R.color.itemsRed));
         series.setBackgroundColor(context.getResources().getColor(R.color.backgroundColorGraph));

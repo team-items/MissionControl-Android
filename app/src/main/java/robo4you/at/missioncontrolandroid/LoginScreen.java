@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.PointF;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
@@ -28,6 +29,17 @@ public class LoginScreen extends ActionBarActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         createShortCut();
         setContentView(R.layout.activity_login_screen);
+        EditText ipField = (EditText)findViewById(R.id.connectionIP);
+        EditText portField = (EditText)findViewById(R.id.connectionPort);
+        Log.e("display",""+getResources().getDisplayMetrics().densityDpi);
+        if (getResources().getDisplayMetrics().densityDpi>320){
+            MainActivity.font = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/Roboto-Thin.ttf");
+        }else{
+            MainActivity.font = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/Roboto-Regular.ttf");
+        }
+
+        ipField.setTypeface(MainActivity.font);
+        portField.setTypeface(MainActivity.font);
         Button connect = (Button)findViewById(R.id.connectbtn);
         connect.setOnClickListener(this);
         //mydecoderview = (QRCodeReaderView)findViewById(R.id.qrdecoderview);

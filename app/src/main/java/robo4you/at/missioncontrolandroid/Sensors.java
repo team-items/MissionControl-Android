@@ -18,8 +18,9 @@ public class Sensors extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ScrollView scrollView = new ScrollView(getActivity().getApplicationContext());
         scrollView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        int px = (int) ((50 * MainActivity.getDisplay_density()) + 0.5);
-        scrollView.setPadding(0, 0, 0, px);
+        int bottom = (int) ((50 * MainActivity.getDisplay_density()));
+        int top = (int) ((60 * MainActivity.getDisplay_density()));
+        scrollView.setPadding(0, top, 0, bottom);
         LinearLayout layout = new LinearLayout(getActivity().getApplicationContext());
         layout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         layout.setOrientation(LinearLayout.VERTICAL);
