@@ -30,7 +30,6 @@ public class ConnLAO {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
 
     public Object[] generateLayout(Context context) throws JSONException {
@@ -61,7 +60,6 @@ public class ConnLAO {
                     Log.e("missioncontrol",sensorName);
                     JSONObject jsonObject = information.getJSONObject(name).getJSONObject(sensorName);
                     if (jsonObject.has("MinBound")) {
-
                         sensor = new Sensor((int) jsonObject.getDouble("MinBound"),
                                 (int) jsonObject.getDouble("MaxBound"), sensorName, context);
 
@@ -113,7 +111,8 @@ public class ConnLAO {
                 if (controlObj.get("ControlType").toString().equals("Button")) {
                     control = new Button(controlName, context);
                 } else if (controlObj.get("ControlType").toString().equals("Slider")) {
-                    control = new Motor((int) controlObj.getDouble("MinBound"), (int) controlObj.getDouble("MaxBound"), controlName, context, true);
+                    control = new Motor(controlObj.getInt("MinBound"), controlObj.getInt("MaxBound"),
+                            controlName, context, true);
                 }
 
             } else {
@@ -125,8 +124,8 @@ public class ConnLAO {
                         if (jsonObject.get("ControlType").toString().equals("Button")) {
                             control = null;
                         } else if (jsonObject.get("ControlType").toString().equals("Slider")) {
-                            control = new Motor((int) jsonObject.getDouble("MinBound"),
-                                    (int) jsonObject.getDouble("MaxBound"),
+                            control = new Motor(jsonObject.getInt("MinBound"),
+                                    jsonObject.getInt("MaxBound"),
                                     sensorName,
                                     context, false);
                         }

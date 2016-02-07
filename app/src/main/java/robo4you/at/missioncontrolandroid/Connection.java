@@ -132,7 +132,7 @@ public class Connection extends Thread {
                         }
                     }
                 }else{
-                    Thread.sleep(10);
+                    Thread.sleep(5);
                 }
             }
         } catch (Exception e) {

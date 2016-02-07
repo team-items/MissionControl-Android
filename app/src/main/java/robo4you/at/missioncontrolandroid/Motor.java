@@ -95,7 +95,14 @@ public class Motor extends Controller{
         go.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+                MainActivity activity = (MainActivity)context;
+                String updateMsg = "{\n" +
+                        "\t\"Control\" : {\n\t\t" +
+                        "\""+label+"\" : "+value+
+                        "\n\t}\n" +
+                        "}";
+                Log.e("update",updateMsg);
+                activity.conn.sendMessage(updateMsg);
             }
         });
 
