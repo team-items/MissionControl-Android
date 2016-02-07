@@ -31,7 +31,7 @@ public class LoginScreen extends ActionBarActivity implements View.OnClickListen
         setContentView(R.layout.activity_login_screen);
         EditText ipField = (EditText)findViewById(R.id.connectionIP);
         EditText portField = (EditText)findViewById(R.id.connectionPort);
-        Log.e("display",""+getResources().getDisplayMetrics().densityDpi);
+        Log.e("display", "" + getResources().getDisplayMetrics().densityDpi);
         if (getResources().getDisplayMetrics().densityDpi>320){
             MainActivity.font = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/Roboto-Thin.ttf");
         }else{
@@ -42,8 +42,8 @@ public class LoginScreen extends ActionBarActivity implements View.OnClickListen
         portField.setTypeface(MainActivity.font);
         Button connect = (Button)findViewById(R.id.connectbtn);
         connect.setOnClickListener(this);
-        //mydecoderview = (QRCodeReaderView)findViewById(R.id.qrdecoderview);
-        //mydecoderview.setOnQRCodeReadListener(this);
+        mydecoderview = (QRCodeReaderView)findViewById(R.id.qrdecoderview);
+        mydecoderview.setOnQRCodeReadListener(this);
     }
     public void createShortCut(){
         Intent shortcutintent = new Intent("com.android.launcher.action.INSTALL_SHORTCUT");
@@ -86,7 +86,22 @@ public class LoginScreen extends ActionBarActivity implements View.OnClickListen
     @Override
     public void onQRCodeRead(String text, PointF[] points) {
         Log.e("myapp", text);
-        Toast.makeText(LoginScreen.this, text, Toast.LENGTH_SHORT).show();
+        String ipport = text;
+        String[] parts = ipport.split(":");
+        String ip = parts[0];
+        String port = parts[1];
+        Toast.makeText(getApplicationContext(),"performing handshake with: "+ip+":"+port,Toast.LENGTH_LONG).show();
+
+        final Intent i = new Intent(this, MainActivity.class);
+        i.putExtra("ip", ip);
+        i.putExtra("port", port);
+        Handler h = new Handler();
+        h.post(new Runnable() {
+            @Override
+                public void run() {
+                    startActivity(i);
+                }
+            });
     }
 
     @Override
@@ -102,13 +117,13 @@ public class LoginScreen extends ActionBarActivity implements View.OnClickListen
     @Override
     protected void onResume() {
         super.onResume();
-        //mydecoderview.getCameraManager().startPreview();
+        mydecoderview.getCameraManager().startPreview();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        //mydecoderview.getCameraManager().stopPreview();
+        mydecoderview.getCameraManager().stopPreview();
     }
     public static boolean xor(boolean x, boolean y) {
         return ( ( x || y ) && ! ( x && y ) );

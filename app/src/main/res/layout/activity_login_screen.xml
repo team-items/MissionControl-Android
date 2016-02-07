@@ -66,10 +66,10 @@
             android:layout_height="match_parent"
             android:layout_weight="1">
 
-            <!--<com.dlazaro66.qrcodereaderview.QRCodeReaderView
+            <com.dlazaro66.qrcodereaderview.QRCodeReaderView
                 android:id="@+id/qrdecoderview"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />-->
+                android:layout_height="match_parent" />
 
         </FrameLayout>
 
