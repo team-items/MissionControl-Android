@@ -6,7 +6,14 @@
         <item name="windowActionBar">false</item>
         <item name="android:textColorPrimary">#000</item>
         <item name="android:color">#000</item>
-        <item name="android:navigationBarColor">#f43254</item>
+        <item name="android:navigationBarColor">@color/itemsRed</item>
+
+        <item name="android:colorPrimaryDark">@color/itemsRed</item>
+        <item name="android:colorPrimary">@color/itemsRed</item>
+
+        <item name="colorControlNormal">@color/itemsRed</item>
+        <item name="colorControlActivated">@color/itemsRed</item>
+        <item name="colorControlHighlight">@color/itemsRed</item>
     </style>
 
     <style name="AppTheme.NumberPicker">
