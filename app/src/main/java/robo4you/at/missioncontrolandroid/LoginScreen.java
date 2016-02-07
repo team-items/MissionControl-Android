@@ -1,8 +1,6 @@
 package robo4you.at.missioncontrolandroid;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.PointF;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -133,13 +131,13 @@ public class LoginScreen extends ActionBarActivity implements View.OnClickListen
     @Override
     protected void onResume() {
         super.onResume();
-        //mydecoderview.getCameraManager().startPreview();
+        mydecoderview.getCameraManager().startPreview();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        //mydecoderview.getCameraManager().stopPreview();
+        mydecoderview.getCameraManager().stopPreview();
     }
     public static boolean xor(boolean x, boolean y) {
         return ( ( x || y ) && ! ( x && y ) );
