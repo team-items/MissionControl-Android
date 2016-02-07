@@ -68,7 +68,7 @@ public class MainActivity extends ActionBarActivity{
         tabs.setViewPager(pager);
 
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
-        
+        toolbar.setTitle("MissionControll");
         setSupportActionBar(toolbar);
 
         final String ip = getIntent().getStringExtra("ip");
