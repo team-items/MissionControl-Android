@@ -68,6 +68,7 @@ public class MainActivity extends ActionBarActivity{
         tabs.setViewPager(pager);
 
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        toolbar.setTitle("MissionControl");
         setSupportActionBar(toolbar);
 
         final String ip = getIntent().getStringExtra("ip");
@@ -75,20 +76,23 @@ public class MainActivity extends ActionBarActivity{
 
         conn = new Connection(ip, port, new Handler(),this);
         conn.start();
-        while(!conn.gotconlao) {
-            Thread.yield();
-        }
-        ConnLAO connl = new ConnLAO(conn.obj, adapter);
         try {
-            sensors = connl.generateLayout(this).sensors;
-            for (Sensor s:sensors){
-                sensorTreeMap.put(s.getUniqueIdentifier(),s);
+            while (!conn.gotconlao) {
+                Thread.yield();
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
+            ConnLAO connl = new ConnLAO(conn.obj, adapter);
+            try {
+                sensors = (ArrayList<Sensor>) connl.generateLayout(this)[1];
+                for (Sensor s : sensors) {
+                    sensorTreeMap.put(s.getUniqueIdentifier(), s);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            Log.e("Anzahl der Sensoren: ", "" + sensors.size());
+        }catch(Exception e){
+            Log.e("Error: ","Error while doing stuff");
         }
-        Log.e("Anzahl der Sensoren: ", "" + sensors.size());
-
 
     }
 
@@ -126,7 +130,7 @@ public class MainActivity extends ActionBarActivity{
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.menu,menu);
+        getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
 }

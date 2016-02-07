@@ -47,7 +47,6 @@ public class Connection extends Thread {
         String msg = "";
         try {
             socket = new Socket(ip, port);
-            Log.e("connection",""+socket.isConnected());
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 

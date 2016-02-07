@@ -33,7 +33,7 @@ public class ConnLAO {
 
     }
 
-    public Sensors generateLayout(Context context) throws JSONException {
+    public Object[] generateLayout(Context context) throws JSONException {
         Controllers controllers = new Controllers();
         Sensors sensors = new Sensors();
         LinearLayout layout = new LinearLayout(context);
@@ -157,9 +157,10 @@ public class ConnLAO {
                 controllers.controllers.add(control);
             }
         }
+        Log.e("viewpage",""+ (viewPageAdapter == null));
         viewPageAdapter.setMotorTab(controllers);
         viewPageAdapter.setSensorsTab(sensors);
-        return sensors;
+        return new Object[]{layout, sensors.sensors};
     }
 }
 
