@@ -17,7 +17,9 @@ import android.widget.Toast;
 
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
 
-import java.util.regex.Pattern;
+import java.io.IOException;
+import java.net.Socket;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class LoginScreen extends ActionBarActivity implements View.OnClickListener,QRCodeReaderView.OnQRCodeReadListener{
     Connection conn;
@@ -32,11 +34,7 @@ public class LoginScreen extends ActionBarActivity implements View.OnClickListen
         EditText ipField = (EditText)findViewById(R.id.connectionIP);
         EditText portField = (EditText)findViewById(R.id.connectionPort);
         Log.e("display", "" + getResources().getDisplayMetrics().densityDpi);
-        if (getResources().getDisplayMetrics().densityDpi>320){
             MainActivity.font = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/Roboto-Thin.ttf");
-        }else{
-            MainActivity.font = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/Roboto-Regular.ttf");
-        }
 
         ipField.setTypeface(MainActivity.font);
         portField.setTypeface(MainActivity.font);
@@ -65,8 +63,9 @@ public class LoginScreen extends ActionBarActivity implements View.OnClickListen
         EditText portField = (EditText)findViewById(R.id.connectionPort);
         final String ip = ipField.getText().toString().trim();
         final String port = portField.getText().toString().trim();
-        if ((ip.matches(validHostnameRegex) || ip.matches(validIpAddressRegex) && port.matches(validPortRegex))){
-            Toast.makeText(getApplicationContext(),"performing handshake with: "+ip+":"+port,Toast.LENGTH_SHORT).show();
+        if ((ip.matches(validHostnameRegex) || ip.matches(validIpAddressRegex) && port.matches(validPortRegex))
+                && checkSocket(ip,Integer.parseInt(port))){
+            Toast.makeText(getApplicationContext(),"performing handshake with: "+ip+":"+port,Toast.LENGTH_LONG).show();
 
             final Intent i = new Intent(this, MainActivity.class);
             i.putExtra("ip", ip);
@@ -95,8 +94,9 @@ public class LoginScreen extends ActionBarActivity implements View.OnClickListen
         String[] parts = ipport.split(":");
         String ip = parts[0];
         String port = parts[1];
-        if ((ip.matches(validHostnameRegex) || ip.matches(validIpAddressRegex) && port.matches(validPortRegex))){
-        Toast.makeText(getApplicationContext(),"performing handshake with: "+ip+":"+port,Toast.LENGTH_SHORT).show();
+        if ((ip.matches(validHostnameRegex) || ip.matches(validIpAddressRegex) && port.matches(validPortRegex)
+                && checkSocket(ip,Integer.parseInt(port)))){
+        Toast.makeText(getApplicationContext(),"performing handshake with: "+ip+":"+port,Toast.LENGTH_LONG).show();
 
         final Intent i = new Intent(this, MainActivity.class);
         i.putExtra("ip", ip);
@@ -126,15 +126,48 @@ public class LoginScreen extends ActionBarActivity implements View.OnClickListen
     @Override
     protected void onResume() {
         super.onResume();
-        mydecoderview.getCameraManager().startPreview();
+        //mydecoderview.getCameraManager().startPreview();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        mydecoderview.getCameraManager().stopPreview();
+        //mydecoderview.getCameraManager().stopPreview();
     }
     public static boolean xor(boolean x, boolean y) {
         return ( ( x || y ) && ! ( x && y ) );
+    }
+    public static boolean checkSocket(String ip, int port){
+        CheckSocket checkSocket = new CheckSocket(ip,port);
+        new Thread(checkSocket).start();
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return checkSocket.connected;
+    }
+}
+class CheckSocket implements Runnable{
+
+    int port;
+    String server;
+    public boolean connected = false;
+
+    public CheckSocket(String server,int port ){
+        this.port = port;
+        this.server = server;
+    }
+    @Override
+    public void run() {
+        try {
+            Socket s = new Socket(server,port);
+            if (s.isConnected()){
+                connected = true;
+            }
+            s.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

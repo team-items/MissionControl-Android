@@ -19,8 +19,8 @@
             android:layout_weight="1">
 
             <ImageView
-                android:layout_width="328dp"
-                android:layout_height="213dp"
+                android:layout_width="219dp"
+                android:layout_height="142dp"
                 android:id="@+id/imageView"
                 android:layout_gravity="center_horizontal|top"
                 android:src="@mipmap/missioncontrol_white_1024" />
@@ -29,9 +29,7 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:focusable="true"
-                android:focusableInTouchMode="true">
+                android:gravity="center_horizontal">
                 <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -39,8 +37,7 @@
                     android:hint="IP/Hostname"
                     android:text="items.ninja"
                     android:layout_gravity="center_horizontal"
-                    android:gravity="center"
-                    android:minWidth="140dp" />
+                    android:minWidth="150dp" />
                 <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -48,9 +45,7 @@
                     android:hint="Port"
                     android:text="62626"
                     android:layout_gravity="center_horizontal"
-                    android:gravity="center"
-                    android:minWidth="80dp"
-                    android:layout_marginLeft="10dp" />
+                    android:minWidth="50dp" />
             </LinearLayout>
 
             <Button
@@ -60,7 +55,7 @@
                 android:id="@+id/connectbtn"
                 android:layout_gravity="center_horizontal|bottom"
                 android:layout_marginBottom="25dp"
-                android:layout_marginTop="35dp"
+                android:layout_marginTop="25dp"
                 android:background="@color/itemsRed"
                 android:textColor="#ffffff"
                 />
