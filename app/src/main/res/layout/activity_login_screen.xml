@@ -37,7 +37,8 @@
                     android:hint="IP/Hostname"
                     android:text="items.ninja"
                     android:layout_gravity="center_horizontal"
-                    android:minWidth="150dp" />
+                    android:gravity="center"
+                    android:minWidth="120dp" />
                 <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -45,7 +46,8 @@
                     android:hint="Port"
                     android:text="62626"
                     android:layout_gravity="center_horizontal"
-                    android:minWidth="50dp" />
+                    android:gravity="center"
+                    android:minWidth="60dp" />
             </LinearLayout>
 
             <Button

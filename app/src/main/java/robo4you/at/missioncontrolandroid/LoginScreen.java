@@ -66,7 +66,7 @@ public class LoginScreen extends ActionBarActivity implements View.OnClickListen
         final String ip = ipField.getText().toString().trim();
         final String port = portField.getText().toString().trim();
         if ((ip.matches(validHostnameRegex) || ip.matches(validIpAddressRegex) && port.matches(validPortRegex))){
-            Toast.makeText(getApplicationContext(),"performing handshake with: "+ip+":"+port,Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"performing handshake with: "+ip+":"+port,Toast.LENGTH_SHORT).show();
 
             final Intent i = new Intent(this, MainActivity.class);
             i.putExtra("ip", ip);
@@ -96,7 +96,7 @@ public class LoginScreen extends ActionBarActivity implements View.OnClickListen
         String ip = parts[0];
         String port = parts[1];
         if ((ip.matches(validHostnameRegex) || ip.matches(validIpAddressRegex) && port.matches(validPortRegex))){
-        Toast.makeText(getApplicationContext(),"performing handshake with: "+ip+":"+port,Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(),"performing handshake with: "+ip+":"+port,Toast.LENGTH_SHORT).show();
 
         final Intent i = new Intent(this, MainActivity.class);
         i.putExtra("ip", ip);
