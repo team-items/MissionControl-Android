@@ -85,11 +85,17 @@ public class LoginScreen extends ActionBarActivity implements View.OnClickListen
 
     @Override
     public void onQRCodeRead(String text, PointF[] points) {
+
+        String validIpAddressRegex = "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}↵\n" +
+                "(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";
+        String validHostnameRegex = "^(?=.{1,255}$)[0-9A-Za-z](?:(?:[0-9A-Za-z]|-){0,61}[0-9A-Za-z])?(?:\\.[0-9A-Za-z](?:(?:[0-9A-Za-z]|-){0,61}[0-9A-Za-z])?)*\\.?$";
+        String validPortRegex = "^([0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$";
         Log.e("myapp", text);
         String ipport = text;
         String[] parts = ipport.split(":");
         String ip = parts[0];
         String port = parts[1];
+        if ((ip.matches(validHostnameRegex) || ip.matches(validIpAddressRegex) && port.matches(validPortRegex))){
         Toast.makeText(getApplicationContext(),"performing handshake with: "+ip+":"+port,Toast.LENGTH_LONG).show();
 
         final Intent i = new Intent(this, MainActivity.class);
@@ -102,6 +108,9 @@ public class LoginScreen extends ActionBarActivity implements View.OnClickListen
                     startActivity(i);
                 }
             });
+        }else{
+            Toast.makeText(getApplicationContext(),"wrong ip/port: "+ip+":"+port,Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
