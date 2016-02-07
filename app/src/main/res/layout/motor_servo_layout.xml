@@ -41,7 +41,9 @@
             android:id="@+id/seekBar"
             android:layout_weight="10"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp" />
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="0dp" />
 
         <Button
             style="?android:attr/buttonStyleSmall"

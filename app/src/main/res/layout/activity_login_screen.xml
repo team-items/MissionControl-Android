@@ -49,7 +49,8 @@
                     android:text="62626"
                     android:layout_gravity="center_horizontal"
                     android:gravity="center"
-                    android:minWidth="80dp" />
+                    android:minWidth="80dp"
+                    android:layout_marginLeft="10dp" />
             </LinearLayout>
 
             <Button
