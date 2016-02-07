@@ -54,7 +54,10 @@
             android:background="@color/itemsRed"
             android:elegantTextHeight="false"
             android:textColor="#ffff"
-            android:layout_marginBottom="10dp" />
+            android:layout_marginBottom="10dp"
+            android:maxWidth="90px"
+            android:minHeight="90px"
+            android:minWidth="90px" />
     </LinearLayout>
     <View
         android:layout_width="match_parent"
