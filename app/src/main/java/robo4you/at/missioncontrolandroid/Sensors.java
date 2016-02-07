@@ -2,6 +2,7 @@ package robo4you.at.missioncontrolandroid;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,7 @@ public class Sensors extends Fragment{
         layout.setOrientation(LinearLayout.VERTICAL);
         scrollView.setBackgroundColor(getResources().getColor(R.color.backgroundColorGraph));
         for (Sensor sensor:this.sensors){
-            layout.addView(sensor.generateLayout(layout));
+             layout.addView(sensor.generateLayout(layout));
         }
         scrollView.addView(layout);
         return scrollView;
