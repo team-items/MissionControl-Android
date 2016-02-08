@@ -27,14 +27,28 @@ public class Motor extends Controller{
     final Context context;
     boolean isslider;
     private final int STEPS = 100;
+    String slidername = "";
+    String butonname = "";
 
-    public Motor(final double minValue, final double maxValue, final String label, final Context context, boolean isslider) {
+    public Motor(final double minValue, final double maxValue, final String label, final Context context, boolean isslider, String slidername) {
         this.min = minValue;
         this.max = maxValue;
         this.context = context;
         this.value = minValue;
         this.label = label;
         this.isslider = isslider;
+        this.slidername = slidername;
+    }
+
+    public Motor(final double minValue, final double maxValue, final String label, final Context context, boolean isslider, String slidername, String butonname) {
+        this.min = minValue;
+        this.max = maxValue;
+        this.context = context;
+        this.value = minValue;
+        this.label = label;
+        this.isslider = isslider;
+        this.butonname = butonname;
+        this.slidername = slidername;
     }
 
     public void hideButton(){
@@ -90,17 +104,17 @@ public class Motor extends Controller{
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                MainActivity activity = (MainActivity)context;
+                String updateMsg = "{ \"Control\" : { \"" + slidername + "\" : " + (int)value + " } }";
+                Log.e("update",updateMsg);
+                activity.conn.sendMessage(updateMsg);
             }
         });
         go.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MainActivity activity = (MainActivity)context;
-                String updateMsg = "{\n" +
-                        "\t\"Control\" : {\n\t\t" +
-                        "\""+label+"\" : "+value+
-                        "\n\t}\n" +
-                        "}";
+                String updateMsg = "{ \"Control\" : { \"" + butonname + "\" : \"click\" } }";
                 Log.e("update",updateMsg);
                 activity.conn.sendMessage(updateMsg);
             }
@@ -115,7 +129,7 @@ public class Motor extends Controller{
 
     public void setValue(double value){
         this.value = value;
-        Log.e("missioncontrol","change value to: "+value);
+        Log.e("missioncontrol", "change value to: " + value);
     }
     public String getUniqueIdentifier(){
         return this.label;

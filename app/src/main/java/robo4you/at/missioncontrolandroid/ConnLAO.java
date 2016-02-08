@@ -103,31 +103,36 @@ public class ConnLAO {
         //controls
         iterator = controller.keys();
         Controller control = null;
+
         while (iterator.hasNext()) {
             String controlName = iterator.next();
-
+            Log.e("msg", controlName);
             JSONObject controlObj = controller.getJSONObject(controlName);
             if (controlObj.has("ControlType")) {
                 if (controlObj.get("ControlType").toString().equals("Button")) {
                     control = new Button(controlName, context);
                 } else if (controlObj.get("ControlType").toString().equals("Slider")) {
                     control = new Motor(controlObj.getInt("MinBound"), controlObj.getInt("MaxBound"),
-                            controlName, context, true);
+                            controlName, context, true, controlName);
                 }
 
             } else {
                 Iterator<String> subIterator = controlObj.keys();
+                String buttonname = "";
+                String slidername = "";
                 while (subIterator.hasNext()) {
                     String sensorName = subIterator.next();
                     JSONObject jsonObject = controller.getJSONObject(controlName).getJSONObject(sensorName);
+
+
                     if (jsonObject.has("ControlType")) {
                         if (jsonObject.get("ControlType").toString().equals("Button")) {
+                            buttonname = sensorName;
                             control = null;
                         } else if (jsonObject.get("ControlType").toString().equals("Slider")) {
-                            control = new Motor(jsonObject.getInt("MinBound"),
-                                    jsonObject.getInt("MaxBound"),
-                                    sensorName,
-                                    context, false);
+                            slidername = sensorName;
+                            control = new Motor(jsonObject.getInt("MinBound"), jsonObject.getInt("MaxBound"), controlName, context, false, slidername, buttonname);
+
                         }
                     }
                     if (control != null) {

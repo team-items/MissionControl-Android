@@ -2,6 +2,7 @@ package robo4you.at.missioncontrolandroid;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,18 +40,10 @@ public class Button extends Controller {
             private boolean status = true;
             @Override
             public void onClick(View v) {
-                if(status){
-                    button.setBackgroundColor(-1);
-                    button.setTextColor(context.getResources().getColor(R.color.itemsRed));
-                    button.setText("0");
-                    value = 0;
-                }else{
-                    button.setBackgroundColor(context.getResources().getColor(R.color.itemsRed));
-                    button.setTextColor(-1);
-                    button.setText("1");
-                    value = 1;
-                }
-                status = !status;
+                MainActivity activity = (MainActivity)context;
+                String updateMsg = "{ \"Control\" : { \"" + label + "\" : \"click\" } }";
+                Log.e("update", updateMsg);
+                activity.conn.sendMessage(updateMsg);
             }
         });
 
